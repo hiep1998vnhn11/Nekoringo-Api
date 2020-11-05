@@ -19,7 +19,14 @@ class CommentController extends AppBaseController
         $comment->user_id = auth()->user()->id;
         $comment->pub_id = $pub->id;
         $comment->content = $request->content;
-
+        $image_photo_path = null;
+        if ($request->hasFile('image')) {
+            $image = $request->image;
+            $uploadFolder = 'public/pubs/' . $pub->id . '/comment/';
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image_photo_path = env('APP_URL') . '/storage/' . $image->storeAs($uploadFolder, $imageName);
+        }
+        if ($image_photo_path) $comment->image_path = $image_photo_path;
         $comment->save();
         return $this->sendRespondSuccess($comment, 'Create comment Successfully!');
     }

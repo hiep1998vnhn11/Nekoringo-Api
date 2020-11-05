@@ -21,6 +21,17 @@ class PubController extends AppBaseController
         $pub->phone_number = $request->phone_number;
         $pub->description = $request->description;
         $pub->save();
+        $image_photo_path = null;
+        if ($request->hasFile('image')) {
+            $image = $request->image;
+            $uploadFolder = 'public/pubs/' . $pub->id . '/home_image/';
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image_photo_path = env('APP_URL') . '/storage/' . $image->storeAs($uploadFolder, $imageName);
+        }
+        if ($image_photo_path) {
+            $pub->home_photo_path = $image_photo_path;
+            $pub->save();
+        }
         return $this->sendRespondSuccess($pub, 'Create Pub successfully!');
     }
 

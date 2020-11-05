@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PubController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +38,8 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'user'
 ], function () {
+
+    Route::group(['prefix' => 'pub'], function () {
+        Route::post('create', [PubController::class, 'create']);
+    });
 });
