@@ -15,6 +15,13 @@ class CreateDishesTable extends Migration
     {
         Schema::create('dishes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('pub_id');
+            $table->unsignedBigInteger('category_id');
+            $table->text('description');
+            $table->text('photo_path');
+            $table->string('name');
+            $table->foreign('pub_id')->references('id')->on('pubs')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

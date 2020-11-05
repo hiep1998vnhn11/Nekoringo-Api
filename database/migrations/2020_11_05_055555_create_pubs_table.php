@@ -15,6 +15,13 @@ class CreatePubsTable extends Migration
     {
         Schema::create('pubs', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('name');
+            $table->text('home_photo_path');
+            $table->string('main_email');
+            $table->string('phone_number');
+            $table->text('description');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
