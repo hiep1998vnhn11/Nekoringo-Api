@@ -8,6 +8,30 @@ endif
 
 OS:=$(shell uname)
 
+docker-restart:
+	docker-compose down
+	make docker-start
+	make docker-init-db-full
+	make docker-link-storage
+
+docker-start:
+	docker-compose up -d
+
+docker-connect: 
+	docker exec -it nekoringo-api ash
+
+docker-init-db-full:
+	docker exec -it nekoringo-api make init-db-full
+
+docker-link-storage:
+	docker exec -it nekoringo-api php artisan storage:link
+
+init-db-full:
+	make autoload
+	php artisan migrate:fresh
+	make update-master
+	php artisan db:seed
+
 init-app:
 	cp .env.example .env
 	composer install
