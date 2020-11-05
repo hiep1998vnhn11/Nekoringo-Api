@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 
-class AuthController extends Controller
+class AuthController extends AppBaseController
 {
     /**
      * Create a new AuthController instance.
@@ -41,13 +42,12 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $credentials = request(['email', 'password']);
-
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        return $this->respondWithToken($token);
+        $user = new User();
+        $user->email = $request->email;
+        $user->name = $request->name;
+        $user->password = bcrypt($request->password);
+        $user->save();
+        return $this->sendRespondSuccess($user, 'Register Successfully!');
     }
 
     /**
