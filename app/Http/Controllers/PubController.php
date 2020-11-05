@@ -41,4 +41,8 @@ class PubController extends AppBaseController
         $pub->delete();
         return $this->sendRespondSuccess($pub, 'Deleted!');
     }
+
+    public function show(Pub $pub)
+    {
+    }
 }
