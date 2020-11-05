@@ -44,4 +44,13 @@ class AppBaseController extends Controller
             'data'    => $data
         ], $code);
     }
+
+    public function sendForbidden()
+    {
+        return $this->sendRespondError(
+            null,
+            'Forbidden!',
+            403
+        );
+    }
 }
