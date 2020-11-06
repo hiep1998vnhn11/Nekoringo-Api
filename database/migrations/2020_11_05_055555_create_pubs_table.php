@@ -21,6 +21,10 @@ class CreatePubsTable extends Migration
             $table->string('main_email');
             $table->string('phone_number');
             $table->text('description');
+            $table->text('address');
+            $table->string('business_time')->nullable();
+            $table->text('video_path')->nullable();
+            $table->text('map_path')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

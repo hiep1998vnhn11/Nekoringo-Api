@@ -41,5 +41,6 @@ Route::group([
 
     Route::group(['prefix' => 'pub'], function () {
         Route::post('create', [PubController::class, 'create']);
+        Route::get('{pub}/get', [PubController::class, 'get']);
     });
 });
