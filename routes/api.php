@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PubController;
+use App\Http\Controllers\RatingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,5 +43,8 @@ Route::group([
     Route::group(['prefix' => 'pub'], function () {
         Route::post('create', [PubController::class, 'create']);
         Route::get('{pub}/get', [PubController::class, 'get']);
+        Route::get('store', [PubController::class, 'store']);
+        Route::get('store_my_pub', [PubController::class, 'storeMyPub']);
+        Route::post('{pub}/rating/create', [RatingController::class, 'create']);
     });
 });

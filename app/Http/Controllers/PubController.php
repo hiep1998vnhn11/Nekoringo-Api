@@ -22,6 +22,7 @@ class PubController extends AppBaseController
         $pub->phone_number = $request->phone_number;
         $pub->description = $request->description;
         $pub->business_time = $request->business_time;
+        $pub->address = $request->address;
         $pub->map_path = $request->map_path;
         $pub->video_path = $request->video_path;
         $pub->home_photo_path = 'https://www.événementiel.net/wp-content/uploads/2014/02/default-placeholder.png';
@@ -50,6 +51,17 @@ class PubController extends AppBaseController
 
     public function get(Pub $pub)
     {
+        $pub->ratings;
         return $this->sendRespondSuccess($pub, 'Get successfully!');
+    }
+
+    public function store()
+    {
+        return $this->sendRespondSuccess(Pub::all(), 'Get Pubs successfully!');
+    }
+
+    public function storeMyPub()
+    {
+        return $this->sendRespondSuccess(auth()->user()->pubs, 'Get Pub successfully!');
     }
 }

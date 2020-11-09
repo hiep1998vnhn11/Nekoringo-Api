@@ -17,6 +17,7 @@ class CreateRatingsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('pub_id');
+            $table->text('image_path')->nullable();
             $table->enum('rate', [1, 2, 3, 4, 5]);
             $table->text('content');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
