@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Database\Seeders\UserSeeder;
+use Database\Seeders\CommentSeeder;
+use Database\Seeders\PubSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,5 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UserSeeder::class);
+        $this->call(PubSeeder::class);
+        $this->call(CommentSeeder::class);
     }
 }

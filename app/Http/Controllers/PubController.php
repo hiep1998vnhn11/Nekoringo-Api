@@ -6,6 +6,7 @@ use App\Http\Requests\PubRequest;
 use App\Models\Pub;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class PubController extends AppBaseController
 {
@@ -51,13 +52,23 @@ class PubController extends AppBaseController
 
     public function get(Pub $pub)
     {
-        $pub->ratings;
+        $ratings = $pub->ratings;
+        $rate_avrg = 0;
+        $rate_count = 0;
+        foreach ($ratings as $rating) {
+            $rating->user;
+            $rate_avrg += $rating->rate;
+            $rate_count += 1;
+        }
+        $pub->ratings_count = $rate_count;
+        $pub->rate_avrg = $rate_avrg / $rate_count;
         return $this->sendRespondSuccess($pub, 'Get successfully!');
     }
 
     public function store()
     {
-        return $this->sendRespondSuccess(Pub::all(), 'Get Pubs successfully!');
+        $pubs = Pub::all();
+        return $this->sendRespondSuccess($pubs, 'Get Pubs successfully!');
     }
 
     public function storeMyPub()

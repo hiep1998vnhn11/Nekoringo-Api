@@ -36,16 +36,23 @@ class RatingController extends AppBaseController
                 $image_photo_path = env('APP_URL') . '/storage/' . Str::after($path, 'public/');
             }
             if ($image_photo_path) {
-                $rating->photo_path = $image_photo_path;
+                $rating->image_path = $image_photo_path;
                 $rating->save();
             }
             return $this->sendRespondSuccess($rating, 'Rate successfully!');
-        } else return $this->sendRespondError($isRated, 'You had been rated', 500);
+        } else return $this->sendRespondSuccess($isRated, 'You had been rated');
     }
 
     public function get(Pub $pub)
     {
         $ratings = $pub->ratings;
         return $this->sendRespondSuccess($ratings, 'Get Rating successfully!');
+    }
+
+    public function delete(Rating $rating)
+    {
+        if ($rating->user_id != auth()->user()->id) return $this->sendForbidden();
+        $rating->delete();
+        return $this->sendRespondSuccess($rating, 'Delete successfully!');
     }
 }
