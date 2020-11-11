@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DishController;
 use App\Http\Controllers\PubController;
 use App\Http\Controllers\RatingController;
 
@@ -46,5 +47,11 @@ Route::group([
         Route::get('store', [PubController::class, 'store']);
         Route::get('store_my_pub', [PubController::class, 'storeMyPub']);
         Route::post('{pub}/rating/create', [RatingController::class, 'create']);
+    });
+
+    Route::group(['prefix' => 'dish'], function () {
+        Route::get('store', [DishController::class, 'store']);
+        Route::post('{dish}/add', [DishController::class, 'add']);
+        Route::post('create', [DishController::class, 'create']);
     });
 });

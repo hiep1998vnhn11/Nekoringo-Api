@@ -12,7 +12,7 @@ class PubController extends AppBaseController
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api')->except(['get', 'store']);
     }
     public function create(PubRequest $request)
     {
@@ -62,6 +62,11 @@ class PubController extends AppBaseController
         }
         $pub->ratings_count = $rate_count;
         $pub->rate_avrg = $rate_avrg / $rate_count;
+
+        $hasDishes = $pub->has_dishes;
+        foreach ($hasDishes as $dish) {
+            $dish->dish;
+        }
         return $this->sendRespondSuccess($pub, 'Get successfully!');
     }
 

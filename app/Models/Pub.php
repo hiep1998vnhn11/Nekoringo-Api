@@ -19,13 +19,13 @@ class Pub extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function dishes()
-    {
-        return $this->hasMany('App\Models\Dish');
-    }
-
     public function comments()
     {
         return $this->hasMany('App\Models\Comment');
+    }
+
+    public function has_dishes()
+    {
+        return $this->hasMany('App\Models\Pub_has_Dish');
     }
 }
