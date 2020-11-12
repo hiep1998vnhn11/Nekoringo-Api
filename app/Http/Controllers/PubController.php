@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PubRequest;
+use App\Http\Requests\UpdatePubRequest;
 use App\Models\Pub;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -79,5 +80,44 @@ class PubController extends AppBaseController
     public function storeMyPub()
     {
         return $this->sendRespondSuccess(auth()->user()->pubs, 'Get Pub successfully!');
+    }
+
+    public function update(UpdatePubRequest $request, Pub $pub)
+    {
+        if ($pub->user_id != auth()->user()->id) return $this->sendForbidden();
+        if ($request->description) {
+            $pub->description = $request->description;
+        }
+        if ($request->name) {
+            $pub->name = $request->name;
+        }
+        if ($request->main_email) {
+            $pub->main_email = $request->main_email;
+        }
+        if ($request->phone_number) {
+            $pub->phone_number = $request->phone_number;
+        }
+        if ($request->address) {
+            $pub->address = $request->address;
+        }
+        if ($request->business_time) {
+            $pub->business_time = $request->business_time;
+        }
+        if ($request->video_path) {
+            $pub->video_path = $request->video_path;
+        }
+        if ($request->map_path) {
+            $pub->map_path = $request->map_path;
+        }
+        if ($request->hasFile('image')) {
+            $image = $request->image;
+            $uploadFolder = 'public/pubs/' . $pub->id . '/home_image';
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $path = $image->storeAs($uploadFolder, $imageName);
+            $image_photo_path = env('APP_URL') . '/storage/' . Str::after($path, 'public/');
+            $pub->home_photo_path = $image_photo_path;
+        }
+        $pub->save();
+        return $this->sendRespondSuccess($pub, 'Update Pub successfully!');
     }
 }
