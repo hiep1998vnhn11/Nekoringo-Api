@@ -68,6 +68,11 @@ class PubController extends AppBaseController
         foreach ($hasDishes as $dish) {
             $dish->dish;
         }
+        $comments = $pub->comments;
+        foreach ($comments as $comment) {
+            $comment->user;
+        }
+        $pub->loadCount('comments');
         return $this->sendRespondSuccess($pub, 'Get successfully!');
     }
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\DishController;
 use App\Http\Controllers\PubController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::group([
         Route::get('store', [PubController::class, 'store']);
         Route::get('store_my_pub', [PubController::class, 'storeMyPub']);
         Route::post('{pub}/rating/create', [RatingController::class, 'create']);
+        Route::post('{pub}/comment/create', [CommentController::class, 'create']);
     });
 
     Route::group(['prefix' => 'dish'], function () {
@@ -57,4 +59,7 @@ Route::group([
         Route::post('{dish}/add', [DishController::class, 'add']);
         Route::post('create', [DishController::class, 'create']);
     });
+
+    Route::post('rating/{rating}/delete', [RatingController::class, 'delete']);
+    Route::post('comment/{comment}/delete', [CommentController::class, 'delete']);
 });
