@@ -60,6 +60,7 @@ class PubController extends AppBaseController
             $rating->user;
             $rate_avrg += $rating->rate;
             $rate_count += 1;
+            $rating->rate = intval($rating->rate);
         }
         $pub->ratings_count = $rate_count;
         $pub->rate_avrg = $rate_avrg / $rate_count;
