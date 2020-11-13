@@ -8,6 +8,7 @@ use App\Models\Pub;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class PubController extends AppBaseController
 {
@@ -32,13 +33,14 @@ class PubController extends AppBaseController
         $image_photo_path = null;
         if ($request->hasFile('image')) {
             $image = $request->image;
-            $uploadFolder = 'public/pubs/' . $pub->id . '/home_image';
+            $uploadFolder = 'pubs/' . $pub->id . '/home_image';
             $imageName = time() . '_' . $image->getClientOriginalName();
-            $path = $image->storeAs($uploadFolder, $imageName);
-            $image_photo_path = env('APP_URL') . '/storage/' . Str::after($path, 'public/');
+            $image_photo_path = $image->storeAs($uploadFolder, $imageName, 's3');
+            Storage::disk('s3')->setVisibility($image_photo_path, 'public');
+            $path = Storage::disk('s3')->url($image_photo_path);
         }
-        if ($image_photo_path) {
-            $pub->home_photo_path = $image_photo_path;
+        if ($path) {
+            $pub->home_photo_path = $path;
             $pub->save();
         }
         return $this->sendRespondSuccess($pub, 'Create Pub successfully!');
@@ -117,11 +119,12 @@ class PubController extends AppBaseController
         }
         if ($request->hasFile('image')) {
             $image = $request->image;
-            $uploadFolder = 'public/pubs/' . $pub->id . '/home_image';
+            $uploadFolder = 'pubs/' . $pub->id . '/home_image';
             $imageName = time() . '_' . $image->getClientOriginalName();
-            $path = $image->storeAs($uploadFolder, $imageName);
-            $image_photo_path = env('APP_URL') . '/storage/' . Str::after($path, 'public/');
-            $pub->home_photo_path = $image_photo_path;
+            $image_photo_path = $image->storeAs($uploadFolder, $imageName, 's3');
+            Storage::disk('s3')->setVisibility($image_photo_path, 'public');
+            $path = Storage::disk('s3')->url($image_photo_path);
+            $pub->home_photo_path = $path;
         }
         $pub->save();
         return $this->sendRespondSuccess($pub, 'Update Pub successfully!');

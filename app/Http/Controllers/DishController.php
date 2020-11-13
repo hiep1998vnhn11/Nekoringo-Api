@@ -11,6 +11,7 @@ use App\Http\Requests\DishRequest;
 use App\Models\Pub;
 use App\Models\Pub_has_Dish;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class DishController extends AppBaseController
 {
@@ -65,12 +66,13 @@ class DishController extends AppBaseController
         $image_photo_path = null;
         if ($request->hasFile('image')) {
             $image = $request->image;
-            $uploadFolder = 'public/dishes/image';
+            $uploadFolder = 'dishes/image';
             $imageName = time() . '_' . $image->getClientOriginalName();
-            $path = $image->storeAs($uploadFolder, $imageName);
-            $image_photo_path = env('APP_URL') . '/storage/' . Str::after($path, 'public/');
+            $image_photo_path = $image->storeAs($uploadFolder, $imageName, 's3');
+            Storage::disk('s3')->setVisibility($image_photo_path, 'public');
+            $path = Storage::disk('s3')->url($image_photo_path);
         }
-        $dish->photo_path = $image_photo_path;
+        $dish->photo_path = $path;
         $dish->save();
         return $this->sendRespondSuccess($dish, 'Create Pub successfully!');
     }

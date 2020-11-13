@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends AppBaseController
 {
@@ -24,11 +25,12 @@ class UserController extends AppBaseController
         }
         if ($request->hasFile('image')) {
             $image = $request->image;
-            $uploadFolder = 'public/users/' . $user->id . '/profile_photo';
+            $uploadFolder = 'users/' . $user->id . '/profile_photo_image';
             $imageName = time() . '_' . $image->getClientOriginalName();
-            $path = $image->storeAs($uploadFolder, $imageName);
-            $image_photo_path = env('APP_URL') . '/storage/' . Str::after($path, 'public/');
-            $user->profile_photo_path = $image_photo_path;
+            $image_photo_path = $image->storeAs($uploadFolder, $imageName, 's3');
+            Storage::disk('s3')->setVisibility($image_photo_path, 'public');
+            $path = Storage::disk('s3')->url($image_photo_path);
+            $user->profile_photo_path = $path;
         }
         $user->save();
         return $this->sendRespondSuccess($user, 'Update user successfully!');

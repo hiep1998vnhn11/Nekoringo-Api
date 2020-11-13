@@ -6,6 +6,7 @@ use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use App\Models\Pub;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CommentController extends AppBaseController
 {
@@ -22,11 +23,13 @@ class CommentController extends AppBaseController
         $image_photo_path = null;
         if ($request->hasFile('image')) {
             $image = $request->image;
-            $uploadFolder = 'public/pubs/' . $pub->id . '/comment/';
+            $uploadFolder = 'pubs/' . $pub->id . '/comment';
             $imageName = time() . '_' . $image->getClientOriginalName();
-            $image_photo_path = env('APP_URL') . '/storage/' . $image->storeAs($uploadFolder, $imageName);
+            $image_photo_path = $image->storeAs($uploadFolder, $imageName, 's3');
+            Storage::disk('s3')->setVisibility($image_photo_path, 'public');
+            $path = Storage::disk('s3')->url($image_photo_path);
         }
-        if ($image_photo_path) $comment->image_path = $image_photo_path;
+        if ($path) $comment->image_path = $path;
         $comment->save();
         return $this->sendRespondSuccess($comment, 'Create comment Successfully!');
     }
