@@ -65,7 +65,11 @@ class PubController extends AppBaseController
             $rating->rate = intval($rating->rate);
         }
         $pub->ratings_count = $rate_count;
-        $pub->rate_avrg = $rate_avrg / $rate_count;
+        if ($rate_count) {
+            $pub->rate_avrg = $rate_avrg / $rate_count;
+        } else {
+            $pub->rate_avrg = 0;
+        }
 
         $hasDishes = $pub->has_dishes;
         foreach ($hasDishes as $dish) {
