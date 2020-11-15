@@ -26,9 +26,8 @@ class DishController extends AppBaseController
         $category = Arr::get($param, 'category', null);
         $searchKey = Arr::get($param, 'search_key', null);
         if ($category) {
-            $cate = Category::where('name', $category)->first();
-            if (!$cate) return $this->sendRespondError($category, 'Not found category!');
-            $dishes = Dish::where('category_id', $cate->id);
+            $cate = Category::findOrFail($category);
+            $dishes = $cate->dishes;
         } else {
             $dishes = Dish::orderBy('id');
         }
