@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DishController;
 use App\Http\Controllers\PubController;
 use App\Http\Controllers\RatingController;
@@ -62,4 +63,9 @@ Route::group([
 
     Route::post('rating/{rating}/delete', [RatingController::class, 'delete']);
     Route::post('comment/{comment}/delete', [CommentController::class, 'delete']);
+
+    Route::group(['prefix' => 'category'], function () {
+        Route::get('store', [CategoryController::class, 'store']);
+        Route::get('{category}/get', [CategoryController::class, 'get']);
+    });
 });
