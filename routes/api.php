@@ -9,6 +9,7 @@ use App\Http\Controllers\PubController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,5 +68,7 @@ Route::group([
     Route::group(['prefix' => 'category'], function () {
         Route::get('store', [CategoryController::class, 'store']);
         Route::get('{category}/get', [CategoryController::class, 'get']);
+        Route::post('create', [CategoryController::class, 'create']);
+        Route::post('{category}/delete', [CategoryController::class, 'delete']);
     });
 });
