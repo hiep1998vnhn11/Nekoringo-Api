@@ -61,6 +61,7 @@ Route::group([
     Route::group(['prefix' => 'dish'], function () {
         Route::get('store', [DishController::class, 'store']);
         Route::post('{dish}/add', [DishController::class, 'add']);
+        Route::get('{dish}/pub/store', [DishController::class, 'storePub']);
         Route::post('create', [DishController::class, 'create']);
     });
 

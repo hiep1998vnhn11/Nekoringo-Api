@@ -17,7 +17,7 @@ class DishController extends AppBaseController
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['get', 'store']);
+        $this->middleware('auth:api')->except(['get', 'store', 'storePub']);
     }
     public function store(Request $request)
     {
@@ -74,5 +74,14 @@ class DishController extends AppBaseController
         $dish->photo_path = $path;
         $dish->save();
         return $this->sendRespondSuccess($dish, 'Create Pub successfully!');
+    }
+
+    public function storePub(Dish $dish)
+    {
+        $has_pubs = $dish->has_pubs;
+        foreach ($has_pubs as $pub) {
+            $pub->pub;
+        }
+        return $has_pubs;
     }
 }
