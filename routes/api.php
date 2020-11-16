@@ -54,6 +54,7 @@ Route::group([
         Route::get('store_my_pub', [PubController::class, 'storeMyPub']);
         Route::post('{pub}/rating/create', [RatingController::class, 'create']);
         Route::post('{pub}/comment/create', [CommentController::class, 'create']);
+        Route::get('{pub}/dish/store', [PubController::class, 'storeDish']);
     });
 
     Route::group(['prefix' => 'dish'], function () {

@@ -14,7 +14,7 @@ class PubController extends AppBaseController
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['get', 'store']);
+        $this->middleware('auth:api')->except(['get', 'store', 'storeDish']);
     }
     public function create(PubRequest $request)
     {
@@ -69,11 +69,6 @@ class PubController extends AppBaseController
             $pub->rate_avrg = $rate_avrg / $rate_count;
         } else {
             $pub->rate_avrg = 0;
-        }
-
-        $hasDishes = $pub->has_dishes;
-        foreach ($hasDishes as $dish) {
-            $dish->dish;
         }
         $comments = $pub->comments;
         foreach ($comments as $comment) {
@@ -132,5 +127,14 @@ class PubController extends AppBaseController
         }
         $pub->save();
         return $this->sendRespondSuccess($pub, 'Update Pub successfully!');
+    }
+
+    public function storeDish(Pub $pub)
+    {
+        $has_dishes = $pub->has_dishes;
+        foreach ($has_dishes as $dish) {
+            $dish->dish;
+        }
+        return $this->sendRespondSuccess($has_dishes, 'Get dishes successfully!');
     }
 }
