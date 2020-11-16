@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeDishRequest;
 use App\Http\Requests\PubRequest;
 use App\Http\Requests\UpdatePubRequest;
 use App\Models\Pub;
+use App\Models\Pub_has_Dish;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Dish;
 
 class PubController extends AppBaseController
 {
@@ -136,5 +139,34 @@ class PubController extends AppBaseController
             $dish->dish;
         }
         return $this->sendRespondSuccess($has_dishes, 'Get dishes successfully!');
+    }
+
+    public function changeDish(Pub $pub, ChangeDishRequest $request)
+    {
+        if ($pub->user_id !== auth()->user()->id) return $this->sendForbidden();
+        $has_dishes_eloquent = $pub->has_dishes();
+        $has_dishes = $has_dishes_eloquent->get();
+        $dishArray = [];
+        foreach ($has_dishes as $dish) array_push($dishArray, $dish->dish_id);
+        $dish_delete = array_diff($dishArray, $request->dishes);
+        $dish_add = array_diff($request->dishes, $dishArray);
+
+        //Delete dish
+        foreach ($dish_delete as $dish_id) {
+            $pub_has_dish = $has_dishes_eloquent->where('dish_id', $dish_id);
+            $pub_has_dish->delete();
+        }
+
+        //create dish
+        foreach ($dish_add as $dish_id) {
+            $dish = Dish::findOrFail($dish_id);
+            $pub_has_dish = new Pub_has_Dish();
+            $pub_has_dish->pub_id = $pub->id;
+            $pub_has_dish->dish_id = $dish_id;
+            $pub_has_dish->save();
+        }
+        $param = $pub->has_dishes;
+        foreach ($param as $has_dish) $has_dish->dish;
+        return $this->sendRespondSuccess($param, 'Change dishes success!');
     }
 }
