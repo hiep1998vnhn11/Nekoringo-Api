@@ -27,7 +27,7 @@ class DishController extends AppBaseController
         $searchKey = Arr::get($param, 'search_key', null);
         if ($category) {
             $cate = Category::findOrFail($category);
-            $dishes = $cate->dishes;
+            $dishes = $cate->dishes();
         } else {
             $dishes = Dish::orderBy('id');
         }
