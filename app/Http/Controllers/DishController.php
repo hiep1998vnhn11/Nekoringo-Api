@@ -82,6 +82,6 @@ class DishController extends AppBaseController
         foreach ($has_pubs as $pub) {
             $pub->pub;
         }
-        return $has_pubs;
+        return $this->sendRespondSuccess($has_pubs, 'Store successfully!');
     }
 }
