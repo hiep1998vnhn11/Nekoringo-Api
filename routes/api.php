@@ -56,6 +56,8 @@ Route::group([
         Route::post('{pub}/comment/create', [CommentController::class, 'create']);
         Route::get('{pub}/dish/store', [PubController::class, 'storeDish']);
         Route::post('{pub}/dish/change', [PubController::class, 'changeDish']);
+        Route::post('{pub}/dish/{dish}/add', [PubController::class, 'addDish']);
+        Route::post('{pub}/dish/{dish}/delete', [PubController::class, 'deleteDish']);
     });
 
     Route::group(['prefix' => 'dish'], function () {

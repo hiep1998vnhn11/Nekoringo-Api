@@ -172,4 +172,28 @@ class PubController extends AppBaseController
         foreach ($param as $has_dish) $has_dish->dish;
         return $this->sendRespondSuccess($param, 'Change dishes success!');
     }
+
+    public function addDish(Pub $pub, Dish $dish)
+    {
+        if ($pub->user_id != auth()->user()->id) return $this->sendForbidden();
+        $dishes = $pub->has_dishes;
+        $have_dish = false;
+        foreach ($dishes as $has_dish) {
+            if ($has_dish->dish_id == $dish->id) $have_dish = true;
+        }
+        if ($have_dish) return $this->sendRespondError($dish, 'Pub had this dish yet!', 500);
+        $pub_has_dish = new Pub_has_Dish();
+        $pub_has_dish->pub_id = $pub->id;
+        $pub_has_dish->dish_id = $dish->id;
+        $pub_has_dish->save();
+        return $this->sendRespondSuccess($dish, 'Add dish to pub successfully!');
+    }
+
+    public function deleteDish(Pub $pub, Pub_has_Dish $dish)
+    {
+        if ($pub->user_id != auth()->user()->id) return $this->sendForbidden();
+        if ($dish->pub_id != $pub->id) return $this->sendForbidden();
+        $dish->delete();
+        return $this->sendRespondSuccess($dish, 'Delete dish Successfully!');
+    }
 }
