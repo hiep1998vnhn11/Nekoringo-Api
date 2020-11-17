@@ -34,7 +34,7 @@ class DishController extends AppBaseController
         if ($searchKey) {
             $dishes = $dishes->where('name', 'like', '%' . $searchKey . '%');
         }
-        $dishes = $dishes->orderBy('created_at', 'desc')->paginate(6);
+        $dishes = $dishes->orderBy('created_at', 'desc')->paginate(8);
         return $this->sendRespondSuccess($dishes, 'Store dishes successfully!');
     }
 

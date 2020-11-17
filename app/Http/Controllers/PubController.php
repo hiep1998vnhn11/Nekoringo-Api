@@ -133,9 +133,11 @@ class PubController extends AppBaseController
         return $this->sendRespondSuccess($pub, 'Update Pub successfully!');
     }
 
-    public function storeDish(Pub $pub)
+    public function storeDish(Pub $pub, Request $request)
     {
-        $has_dishes = $pub->has_dishes()->orderBy('created_at', 'desc')->paginate(6);
+        $has_dishes = null;
+        if ($request->type == 'all') $has_dishes = $pub->has_dishes;
+        else $has_dishes = $pub->has_dishes()->orderBy('created_at', 'desc')->paginate(8);
         foreach ($has_dishes as $dish) {
             $dish->dish;
         }
