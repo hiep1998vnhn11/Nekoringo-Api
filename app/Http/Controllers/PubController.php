@@ -83,7 +83,8 @@ class PubController extends AppBaseController
 
     public function store()
     {
-        $pubs = Pub::all();
+        $pubs = Pub::orderBy('created_at', 'desc')->paginate(6);
+
         return $this->sendRespondSuccess($pubs, 'Get Pubs successfully!');
     }
 
@@ -134,7 +135,7 @@ class PubController extends AppBaseController
 
     public function storeDish(Pub $pub)
     {
-        $has_dishes = $pub->has_dishes;
+        $has_dishes = $pub->has_dishes()->orderBy('created_at', 'desc')->paginate(6);
         foreach ($has_dishes as $dish) {
             $dish->dish;
         }

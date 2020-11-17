@@ -34,7 +34,7 @@ class DishController extends AppBaseController
         if ($searchKey) {
             $dishes = $dishes->where('name', 'like', '%' . $searchKey . '%');
         }
-        $dishes = $dishes->get();
+        $dishes = $dishes->orderBy('created_at', 'desc')->paginate(6);
         return $this->sendRespondSuccess($dishes, 'Store dishes successfully!');
     }
 
@@ -78,7 +78,7 @@ class DishController extends AppBaseController
 
     public function storePub(Dish $dish)
     {
-        $has_pubs = $dish->has_pubs;
+        $has_pubs = $dish->has_pubs()->orderBy('created_at', 'desc')->paginate(6);
         foreach ($has_pubs as $pub) {
             $pub->pub;
         }
