@@ -50,6 +50,7 @@ Route::group([
         Route::post('create', [PubController::class, 'create']);
         Route::get('{pub}/get', [PubController::class, 'get']);
         Route::post('{pub}/update', [PubController::class, 'update']);
+        Route::post('{pub}/delete', [PubController::class, 'delete']);
         Route::get('store', [PubController::class, 'store']);
         Route::get('store_my_pub', [PubController::class, 'storeMyPub']);
         Route::post('{pub}/rating/create', [RatingController::class, 'create']);
