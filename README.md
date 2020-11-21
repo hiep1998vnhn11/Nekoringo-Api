@@ -15,3 +15,6 @@ npm and node: lastet
 ```
   make docker-restart
 ```
+
+## setup your .env
+Please setup yourself
