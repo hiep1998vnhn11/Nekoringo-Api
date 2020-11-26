@@ -155,6 +155,13 @@
             </v-list-item-icon>
           </v-list-item>
         </v-list-group>
+
+        <v-list-item link @click="onLogout">
+          <v-list-item-icon>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Logout</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -225,8 +232,12 @@ import {mapGetters, mapActions} from 'vuex'
     computed: {
       ...mapGetters('user', ['currentUser'])
     },
-    mounted(){
-      window.vm = this
+    methods: {
+      ...mapActions('user', ['logout']),
+      async onLogout(){
+        await this.logout()
+        this.$router.push({name: 'Login'})
+      }
     }
   }
 </script>

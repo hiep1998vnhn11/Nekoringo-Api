@@ -19,7 +19,7 @@ class DishController extends AppBaseController
      */
     public function index()
     {
-        $dishes = Dish::orderBy('created_at', 'desc')->paginate(10);
+        $dishes = Dish::orderBy('created_at', 'desc')->get();
         return $this->sendRespondSuccess($dishes, 'Get dishes successfully!');
     }
 

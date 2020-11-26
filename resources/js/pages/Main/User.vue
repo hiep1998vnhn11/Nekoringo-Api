@@ -4,7 +4,7 @@
       :users="users"
       :loading="loading"
       name="Nekoringo"
-      @fetchData="fetchData"
+      @fetch="fetchData"
     />
   </v-container>
 </template>

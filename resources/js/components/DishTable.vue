@@ -2,28 +2,30 @@
   <v-card>
     <v-card-title>
       <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        rounded
-        outlined
-        dense
-        hide-details
-      ></v-text-field>
+      <v-col cols="3">
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          rounded
+          outlined
+          dense
+          hide-details
+        ></v-text-field>
+      </v-col>
     </v-card-title>
     <v-data-table
       sort-by="id"
       :loading="loading"
       loading-text="Loading... Please wait"
       :headers="headers"
-      :items="users"
+      :items="dishes"
       :search="search"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title> {{ name }} users management </v-toolbar-title>
+          <v-toolbar-title> {{ name }} dishes management </v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
@@ -119,10 +121,10 @@
               v-on="on"
               @click="editItem(item)"
             >
-              mdi-account-key
+              mdi-pencil
             </v-icon>
           </template>
-          <span>Blocked {{ item.name }}</span>
+          <span>Edit</span>
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
@@ -137,22 +139,14 @@
           </template>
           <span>Delete user</span>
         </v-tooltip>
-
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              color="orange"
-              @click="showItem(item)"
-              dark
-              v-bind="attrs"
-              v-on="on"
-            >
-              mdi-eye
-            </v-icon>
-          </template>
-          <span>Show user</span>
-        </v-tooltip>
       </template>
+
+      <template v-slot:item.image="{ item }">
+        <v-avatar width="200" height="150" tile>
+          <v-img :src="item.photo_path" />
+        </v-avatar>
+      </template>
+
       <template v-slot:no-data>
         <v-btn color="primary" @click="$emit('fetch')"> Reset </v-btn>
       </template>
@@ -173,11 +167,9 @@ export default {
           align: 'start',
           value: 'id',
         },
-        { text: 'Email', value: 'email' },
-        { text: 'Name', sortable: false, value: 'name' },
-        { text: 'Role', value: 'roles[0].name' },
-        { text: 'Phone Number', value: 'phone_number' },
-        { text: 'Created at', value: 'created_at' },
+        { text: 'Name', value: 'name' },
+        { text: 'Image', align: 'center', sortable: false, value: 'image' },
+        { text: 'Description', value: 'description' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       editedIndex: -1,
@@ -202,7 +194,7 @@ export default {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     },
   },
-  props: ['users', 'name', 'loading'],
+  props: ['dishes', 'name', 'loading'],
   watch: {
     dialog (val) {
       val || this.close()
@@ -216,19 +208,19 @@ export default {
       this.$router.push({name: 'ParamUser', params: {user_id: item.id}})
     },
     editItem (item) {
-      this.editedIndex = this.users.indexOf(item)
+      this.editedIndex = this.dishes.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
 
     deleteItem (item) {
-      this.editedIndex = this.users.indexOf(item)
+      this.editedIndex = this.dishes.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
     deleteItemConfirm () {
-      this.users.splice(this.editedIndex, 1)
+      this.dishes.splice(this.editedIndex, 1)
       this.closeDelete()
     },
 
@@ -250,9 +242,9 @@ export default {
 
     save () {
       if (this.editedIndex > -1) {
-        Object.assign(this.users[this.editedIndex], this.editedItem)
+        Object.assign(this.dishes[this.editedIndex], this.editedItem)
       } else {
-        this.users.push(this.editedItem)
+        this.dishes.push(this.editedItem)
       }
       this.close()
     },
