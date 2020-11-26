@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AppBaseController;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UserController extends AppBaseController
 {
+    public function __construct()
+    {
+        $this->middleware('role:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::role('viewer')->orderBy('created_at', 'desc')->paginate(10);
+        return $this->sendRespondSuccess($users, 'Get user successfully!');
     }
 
     /**
@@ -78,8 +84,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return $this->sendRespondSuccess($user, 'Delete user successfully!');
     }
 }

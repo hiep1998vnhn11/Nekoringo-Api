@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use App\Models\Rating;
 
-class VoteController extends Controller
+class VoteController extends AppBaseController
 {
+    public function __construct()
+    {
+        $this->middleware('role:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,8 @@ class VoteController extends Controller
      */
     public function index()
     {
-        //
+        $ratings = Rating::orderBy('created_at', 'desc')->paginate(10);
+        return $this->sendRespondSuccess($ratings, 'Get rating successfully!');
     }
 
     /**
@@ -78,8 +84,9 @@ class VoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Rating $rating)
     {
-        //
+        $rating->delete();
+        return $this->sendRespondSuccess($rating, 'Delete rating successfully!');
     }
 }

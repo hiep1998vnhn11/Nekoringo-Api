@@ -18,5 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('/{any}', 'admin')
+Route::view('admin/{any}', 'admin')
     ->where('any', '.*');

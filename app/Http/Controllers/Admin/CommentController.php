@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AppBaseController;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
-class CommentController extends Controller
+class CommentController extends AppBaseController
 {
+
+    public function __construct()
+    {
+        $this->middleware('role:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::orderBy('created_at', 'desc')->paginate(10);
+        return $this->sendRespondSuccess($comments, 'Get all comment successfully!');
     }
 
     /**
@@ -78,8 +85,9 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+        return $this->sendRespondSuccess($comment, 'Delete comment successfully!');
     }
 }

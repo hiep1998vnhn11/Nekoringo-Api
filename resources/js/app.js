@@ -1,22 +1,43 @@
 require('./bootstrap')
 import App from './App.vue'
-import VueRouter from 'vue-router'
-import Router from './router'
 import Vue from 'vue'
 import vuetify from './plugin/vuetify'
 import axios from 'axios'
+import router from './router'
+import store from './store'
+import i18n from './plugins/i18n'
 
-Vue.use(VueRouter)
-axios.defaults.baseURL = process.env.APP_URL
-console.log(process.env)
-
-const router = new VueRouter(Router)
+axios.defaults.baseURL = '/api'
 
 const app = document.getElementById('app')
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!store.getters['user/isLoggedIn']) {
+            next({
+                name: 'Login'
+            })
+        } else {
+            next()
+        }
+    } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+        if (store.getters['user/isLoggedIn']) {
+            next({
+                name: 'Dashboard'
+            })
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
+})
 
 new Vue({
     router,
     vuetify,
+    store,
+    i18n,
     render: function(createElement) {
         return createElement(App)
     }

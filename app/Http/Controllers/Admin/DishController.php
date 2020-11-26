@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AppBaseController;
+use App\Models\Dish;
 use Illuminate\Http\Request;
 
-class DishController extends Controller
+class DishController extends AppBaseController
 {
+    public function __construct()
+    {
+        $this->middleware('role:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,8 @@ class DishController extends Controller
      */
     public function index()
     {
-        //
+        $dishes = Dish::orderBy('created_at', 'desc')->paginate(10);
+        return $this->sendRespondSuccess($dishes, 'Get dishes successfully!');
     }
 
     /**
@@ -78,8 +84,9 @@ class DishController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Dish $dish)
     {
-        //
+        $dish->delete();
+        $this->sendRespondSuccess($dish, 'Delete dish successfully!');
     }
 }
