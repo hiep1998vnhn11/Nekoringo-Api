@@ -3,14 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\Requests\CreateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Spatie\Permission\Models\Role;
 
 class UserController extends AppBaseController
 {
+    public $viewerRole, $blockedRole, $adminRole;
     public function __construct()
     {
         $this->middleware('role:admin');
+        $this->viewerRole = Role::find(1);
+        $this->adminRole = Role::find(2);
+        $this->blockedRole = Role::find(3);
     }
     /**
      * Display a listing of the resource.
@@ -19,18 +26,24 @@ class UserController extends AppBaseController
      */
     public function index()
     {
-        $users = User::role('viewer')->orderBy('created_at', 'desc')->paginate(10);
+        $viewRole = Role::whereNotIn('name', ['admin'])->get();
+        $users = User::role($viewRole)->with('roles')->get();
         return $this->sendRespondSuccess($users, 'Get user successfully!');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Create an user
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(CreateUserRequest $request)
     {
-        //
+        $user = new User();
+        $user->email = $request->email;
+        $user->name = $request->name;
+        $user->password = bcrypt($request->password);
+        $user->save();
+        return $this->sendRespondSuccess($user, 'Create user successfully!');
     }
 
     /**
@@ -50,9 +63,9 @@ class UserController extends AppBaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        return $this->sendRespondSuccess($user, 'Get user successfully!');
     }
 
     /**
@@ -86,7 +99,25 @@ class UserController extends AppBaseController
      */
     public function destroy(User $user)
     {
+        if ($user->hasRole($this->adminRole))
+            return $this->sendForbidden();
         $user->delete();
         return $this->sendRespondSuccess($user, 'Delete user successfully!');
+    }
+
+    /**
+     * Blocked User
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function block(User $user)
+    {
+        if ($user->hasRole($this->viewerRole)) {
+            $user->removeRole($this->viewerRole);
+            $user->assignRole($this->blockedRole);
+        } else return $this->sendRespondError($user, 'User is blocking yet', 500);
+        return $this->sendRespondSuccess($user, 'Block successfully!');
     }
 }

@@ -195,5 +195,18 @@
   "Name too short! Name must contain more than 4 charactor!": "Name too short! Name must contain more than 4 character!",
   "Name too long! Name must contain less than 50 charactor!": "Name too long! Name must contain less than 50 character!",
   "Password is required!": "Password is required!",
-  "Password too short! Please choose other password!": "Password too short! Please choose other password!"
+  "Password too short! Please choose other password!": "Password too short! Please choose other password!",
+  "Admin": {
+    "WelcomeNekoringoAdmin": "Welcome to Nekoringo Admin!",
+    "Dashboard": "Dashboard",
+    "Users": "Users",
+    "Management": "Management",
+    "Setting": "Setting",
+    "Pubs": "Pubs",
+    "Comments": "Comments",
+    "Ratings": "Ratings",
+    "Dishes": "Dishes",
+    "Request": "Request",
+    "UserManagement": "Nekoringo's users management"
+  }
 }

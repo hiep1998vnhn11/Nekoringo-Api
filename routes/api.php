@@ -11,6 +11,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
+use App\Http\Controllers\Admin\RatingController as AdminRatingController;
+use App\Http\Controllers\Admin\PubController as AdminPubController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\DishController as AdminDishController;
+
 use App\Models\Category;
 
 
@@ -88,9 +93,35 @@ Route::group([
     'prefix' => 'admin',
     'middleware' => 'role:admin'
 ], function () {
+    Route::post('auth/me', [AdminAuthController::class, 'me']);
     Route::group([
         'prefix' => 'comment'
     ], function () {
-        Route::post('index', [AdminCommentController::class, 'index']);
+        Route::get('index', [AdminCommentController::class, 'index']);
+    });
+    Route::group([
+        'prefix' => 'user'
+    ], function () {
+        Route::get('index', [AdminUserController::class, 'index']);
+        Route::post('create', [AdminUserController::class, 'create']);
+        Route::post('{user}/block', [AdminUserController::class, 'block']);
+        Route::post('{user}/delete', [AdminUserController::class, 'destroy']);
+        Route::get('{user}/show', [AdminUserController::class, 'show']);
+    });
+    Route::group([
+        'prefix' => 'rating'
+    ], function () {
+        Route::get('index', [AdminRatingController::class, 'index']);
+    });
+    Route::group([
+        'prefix' => 'pub'
+    ], function () {
+        Route::get('index', [AdminPubController::class, 'index']);
+        Route::get('{pub}/show', [AdminPubController::class, 'show']);
+    });
+    Route::group([
+        'prefix' => 'dish'
+    ], function () {
+        Route::get('index', [AdminDishController::class, 'index']);
     });
 });

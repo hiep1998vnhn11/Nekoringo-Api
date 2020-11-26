@@ -7,8 +7,26 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
 export default {
-  name: 'App'
+  name: 'App',
+    computed: mapGetters('user', ['currentUser', 'isLoggedIn']),
+  created() {
+    if (!this.currentUser && this.isLoggedIn) this.getUser()
+  },
+  methods: {
+    ...mapActions('user', ['logout', 'getUser']),
+    async signOut() {
+      await this.logout()
+      this.$router.push({ name: 'Login' })
+    },
+    onClickOutsideWithConditional() {
+      this.expand = false
+    },
+    closeConditional(e) {
+      return this.expand
+    }
+  },
 }
 </script>
 

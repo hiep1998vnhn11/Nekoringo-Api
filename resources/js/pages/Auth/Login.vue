@@ -1,7 +1,18 @@
 <template>
   <v-container>
     <v-col md="6" offset-md="3">
-      <v-card class="rounded-lg" :loading="loading">
+      <div class="text-center">
+        <span class="text-h6 orange--text lighten-3">
+          {{ $t('Admin.WelcomeNekoringoAdmin') }}
+        </span>
+        <v-img
+          class="mx-auto"
+          width="160"
+          height="!60"
+          src="/assets/logo.png"
+        />
+      </div>
+      <v-card class="rounded-lg mt-3" :loading="loading">
         <v-container>
           <v-alert
             :value="registerSuccess"
@@ -42,15 +53,6 @@
               {{ $t('common.login') }}
             </v-btn>
           </v-form>
-          <v-col class="mb-6" justify="center" no-gutters>
-            {{ $t('common.forgotPassword') }}
-          </v-col>
-          <v-col class="text-center">
-            <register-component
-              @success="registerSuccess = true"
-              class="mx-auto"
-            />
-          </v-col>
         </v-container>
       </v-card>
     </v-col>
@@ -58,26 +60,24 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import RegisterComponent from './Register'
 export default {
-  components: {
-    RegisterComponent
+  data(){
+    const _this = this
+    return {
+      valid: true,
+      email: null,
+      password: null,
+      emailRules: [
+        v => !!v || _this.$t('E-mail is required!'),
+        v => /.+@.+/.test(v) || _this.$t('E-mail must be valid')
+      ],
+      passwordRules: [v => !!v || _this.$t('Password is required!')],
+      registerSuccess: false,
+      loading: false,
+      error: null,
+      loginError: false
+    }
   },
-  data: () => ({
-    valid: true,
-    email: null,
-    password: null,
-    emailRules: [
-      v => !!v || 'E-mail is required!',
-      v => /.+@.+/.test(v) || 'E-mail must be valid'
-    ],
-    passwordRules: [v => !!v || 'Password is required!'],
-    registerSuccess: false,
-    loading: false,
-    error: null,
-    loginError: false
-  }),
-
   computed: mapGetters('user', ['isLoggedIn']),
 
   methods: {
@@ -98,7 +98,7 @@ export default {
           },
           { root: true }
         )
-        this.$router.push({ name: 'Home' })
+        this.$router.push({ name: 'Dashboard' })
       } catch (err) {
         this.error = err.response
         this.loginError = true
