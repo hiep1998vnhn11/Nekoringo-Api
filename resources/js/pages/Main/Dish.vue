@@ -3,6 +3,7 @@
     <dish-table
       :loading="loading"
       :dishes="dishes"
+      :categories="categories"
       name="Nekoringo"
       @fetch="fetchData"
     />
@@ -18,6 +19,7 @@ export default{
   data(){
     return{
       dishes: [],
+      categories: [],
       loading: false,
       error: null
     }
@@ -28,7 +30,9 @@ export default{
       this.error = null
       try {
         const response = await axios.get('/admin/dish/index')
+        const categories = await axios.get('/user/category/store')
         this.dishes = response.data.data
+        this.categories = categories.data.data
       } catch(err) {
         this.error = err.toString()
       }

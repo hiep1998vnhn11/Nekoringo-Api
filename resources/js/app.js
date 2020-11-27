@@ -6,8 +6,10 @@ import axios from 'axios'
 import router from './router'
 import store from './store'
 import i18n from './plugins/i18n'
+import VueSweetalert2 from 'vue-sweetalert2'
 
 axios.defaults.baseURL = '/api'
+Vue.use(VueSweetalert2)
 
 const app = document.getElementById('app')
 

@@ -13,4 +13,9 @@ class Dish extends Model
     {
         return $this->hasMany('App\Models\Pub_has_Dish');
     }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Models\Category');
+    }
 }

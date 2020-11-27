@@ -123,5 +123,8 @@ Route::group([
         'prefix' => 'dish'
     ], function () {
         Route::get('index', [AdminDishController::class, 'index']);
+        Route::post('{dish}/update', [AdminDishController::class, 'update']);
+        Route::post('{dish}/delete', [AdminDishController::class, 'destroy']);
+        Route::post('create', [AdminDishController::class, 'create']);
     });
 });
