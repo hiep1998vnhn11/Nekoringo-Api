@@ -105,6 +105,7 @@ Route::group([
         Route::get('index', [AdminUserController::class, 'index']);
         Route::post('create', [AdminUserController::class, 'create']);
         Route::post('{user}/block', [AdminUserController::class, 'block']);
+        Route::post('{user}/unblock', [AdminUserController::class, 'unblock']);
         Route::post('{user}/delete', [AdminUserController::class, 'destroy']);
         Route::get('{user}/show', [AdminUserController::class, 'show']);
     });

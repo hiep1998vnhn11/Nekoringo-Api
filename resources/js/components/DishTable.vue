@@ -49,7 +49,7 @@
                 New Dish
               </v-btn>
             </template>
-            <v-card>
+            <v-card :loading="loadingSave">
               <v-card-title>
                 <span class="headline">{{ formTitle }}</span>
               </v-card-title>
@@ -121,7 +121,7 @@
             </v-card>
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card :loading="loadingSave">
+            <v-card>
               <v-card-title class="headline">
                 Are you sure you want to delete this item?
               </v-card-title>

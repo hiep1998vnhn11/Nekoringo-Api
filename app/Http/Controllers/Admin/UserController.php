@@ -120,4 +120,14 @@ class UserController extends AppBaseController
         } else return $this->sendRespondError($user, 'User is blocking yet', 500);
         return $this->sendRespondSuccess($user, 'Block successfully!');
     }
+
+    public function unblock(User $user)
+    {
+        if ($user->hasRole($this->blockedRole)) {
+            $user->removeRole($this->blockedRole);
+            $user->assignRole($this->viewerRole);
+            $user->with('roles');
+        } else return $this->sendRespondError($user, 'User was not blocked', 500);
+        return $this->sendRespondSuccess($user, 'unBlock successfully!');
+    }
 }
