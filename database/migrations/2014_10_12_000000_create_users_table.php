@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('profile_photo_path')->default('https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png');
+            $table->string('phone_number')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

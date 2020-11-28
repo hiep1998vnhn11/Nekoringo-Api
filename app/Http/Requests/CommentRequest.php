@@ -13,7 +13,7 @@ class CommentRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class CommentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'content' => 'min:1|max:255|string',
+            'image' => 'mimes:jpeg,png|max:10000'
         ];
     }
 }

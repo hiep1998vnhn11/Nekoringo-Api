@@ -57,7 +57,8 @@ class PubSeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'Sushi'
+            'name' => 'Sushi',
+            'src' => 'https://vinmec-prod.s3.amazonaws.com/images/20200410_153038_287034_sushi-la-gi.max-1800x1800.jpg'
         ]);
         Dish::create([
             'category_id' => 1,
@@ -73,7 +74,8 @@ class PubSeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'Buffet'
+            'name' => 'Buffet',
+            'src' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRyBCykvDB0y4AliS4QHkODIziiBXTB4niLJA&usqp=CAU'
         ]);
         Dish::create([
             'category_id' => 2,
@@ -89,7 +91,8 @@ class PubSeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'Barbecue'
+            'name' => 'Barbecue',
+            'src' => 'https://nghebep.com/wp-content/uploads/2019/02/cac-mon-nuong-duoc-yeu-thich.jpg'
         ]);
         Dish::create([
             'category_id' => 3,
