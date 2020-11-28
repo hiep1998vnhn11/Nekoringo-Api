@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function comment()
+    {
+        return $this->belongsTo('App\Models\Comment')->with('user');
+    }
 }

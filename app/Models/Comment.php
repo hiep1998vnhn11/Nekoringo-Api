@@ -18,4 +18,9 @@ class Comment extends Model
     {
         return $this->belongsTo('App\Models\Pub')->select('name', 'id');
     }
+
+    public function reports()
+    {
+        return $this->hasMany('App\Models\Report');
+    }
 }

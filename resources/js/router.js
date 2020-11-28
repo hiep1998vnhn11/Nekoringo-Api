@@ -8,6 +8,7 @@ import User from './pages/Main/User.vue'
 import Pub from './pages/Main/Pub.vue'
 import Rating from './pages/Main/Rating.vue'
 import Comment from './pages/Main/Comment.vue'
+import Report from './pages/Main/Report.vue'
 import Dish from './pages/Main/Dish.vue'
 import DishRequest from './pages/Main/Request/DishRequest.vue'
 import PubRequest from './pages/Main/Request/PubRequest.vue'
@@ -53,6 +54,11 @@ export default new Router({
                     path: 'comment',
                     name: 'Comment',
                     component: Comment
+                },
+                {
+                    path: 'report',
+                    name: 'Report',
+                    component: Report
                 },
                 {
                     path: 'rating',

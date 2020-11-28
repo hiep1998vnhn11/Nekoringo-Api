@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AppBaseController;
+use App\Models\Report;
 use Illuminate\Http\Request;
 
-class ReportController extends Controller
+class ReportController extends AppBaseController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,8 @@ class ReportController extends Controller
      */
     public function index()
     {
-        //
+        $reports = Report::with('comment')->orderBy('created_at', 'desc')->get();
+        return $this->sendRespondSuccess($reports, 'Get report successfully!');
     }
 
     /**

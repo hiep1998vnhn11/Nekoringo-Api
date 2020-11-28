@@ -9,6 +9,7 @@ use App\Http\Controllers\PubController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\VoteController as AdminRatingController;
@@ -79,6 +80,7 @@ Route::group([
 
     Route::post('rating/{rating}/delete', [RatingController::class, 'delete']);
     Route::post('comment/{comment}/delete', [CommentController::class, 'delete']);
+    Route::post('comment/{comment}/report', [ReportController::class, 'create']);
 
     Route::group(['prefix' => 'category'], function () {
         Route::get('store', [CategoryController::class, 'store']);

@@ -91,7 +91,7 @@
         </v-list-group>
 
         <v-list-group
-          :value="$route.name === 'Comment'"
+          :value="$route.name === 'Comment' || $route.name === 'Report'"
           prepend-icon="mdi-comment-multiple-outline"
         >
           <template v-slot:activator>
@@ -174,70 +174,75 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
-  export default {
-    data(){
-      const _this = this
-      return {
-        cards: ['Today', 'Yesterday'],
-        drawer: null,
-        users: [
-          {
-            text: _this.$t('Admin.Management'), 
-            icon: 'mdi-account-multiple-outline',
-            name: 'User'  
-          }
-        ],
-        pubs: [
-          {
-            text: _this.$t('Admin.Management'), 
-            icon: 'mdi-account-multiple-outline',
-            name: 'Pub'  
-          },
-          {
-            text: _this.$t('Admin.Request'), 
-            icon: 'mdi-comment-question-outline',
-            name: 'PubRequest'  
-          }
-        ],
-        comments: [
-          {
-            text: _this.$t('Admin.Management'), 
-            icon: 'mdi-account-multiple-outline',
-            name: 'Comment'  
-          }
-        ],
-        ratings: [
-          {
-            text: _this.$t('Admin.Management'), 
-            icon: 'mdi-account-multiple-outline',
-            name: 'Rating'  
-          }
-        ],
-        dishes: [
-          {
-            text: _this.$t('Admin.Management'), 
-            icon: 'mdi-account-multiple-outline',
-            name: 'Dish'  
-          },
-          {
-            text: _this.$t('Admin.Request'), 
-            icon: 'mdi-comment-question-outline',
-            name: 'DishRequest'  
-          },
-        ],
-        search: ''
-      }
-    },
-    computed: {
-      ...mapGetters('user', ['currentUser'])
-    },
-    methods: {
-      ...mapActions('user', ['logout']),
-      async onLogout(){
-        await this.logout()
-        this.$router.push({name: 'Login'})
-      }
+import { mapGetters, mapActions } from 'vuex'
+export default {
+  data() {
+    const _this = this
+    return {
+      cards: ['Today', 'Yesterday'],
+      drawer: null,
+      users: [
+        {
+          text: _this.$t('Admin.Management'),
+          icon: 'mdi-account-multiple-outline',
+          name: 'User'
+        }
+      ],
+      pubs: [
+        {
+          text: _this.$t('Admin.Management'),
+          icon: 'mdi-account-multiple-outline',
+          name: 'Pub'
+        },
+        {
+          text: _this.$t('Admin.Request'),
+          icon: 'mdi-comment-question-outline',
+          name: 'PubRequest'
+        }
+      ],
+      comments: [
+        {
+          text: _this.$t('Admin.Management'),
+          icon: 'mdi-account-multiple-outline',
+          name: 'Comment'
+        },
+        {
+          text: _this.$t('Admin.Report'),
+          icon: 'mdi-message-alert',
+          name: 'Report'
+        }
+      ],
+      ratings: [
+        {
+          text: _this.$t('Admin.Management'),
+          icon: 'mdi-account-multiple-outline',
+          name: 'Rating'
+        }
+      ],
+      dishes: [
+        {
+          text: _this.$t('Admin.Management'),
+          icon: 'mdi-account-multiple-outline',
+          name: 'Dish'
+        },
+        {
+          text: _this.$t('Admin.Request'),
+          icon: 'mdi-comment-question-outline',
+          name: 'DishRequest'
+        }
+      ],
+      search: ''
+    }
+  },
+  computed: {
+    ...mapGetters('user', ['currentUser'])
+  },
+  methods: {
+    ...mapActions('user', ['logout']),
+    async onLogout() {
+      await this.logout()
+      this.$router.push({ name: 'Login' })
     }
   }
+}
 </script>
