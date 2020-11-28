@@ -3,11 +3,11 @@ import Cookies from 'js-cookie'
 
 const state = {
     currentUser: null,
-    token: Cookies.get('access_token') || null,
+    token: Cookies.get('admin_access_token') || null,
     socket: null,
     setHeader() {
         axios.defaults.headers.common['Authorization'] =
-            'Bearer' + Cookies.get('access_token')
+            'Bearer' + Cookies.get('admin_access_token')
     },
     friends: []
 }
@@ -26,9 +26,9 @@ const actions = {
             password: user.password
         })
         const token = response.data.access_token
-        Cookies.set('access_token', token, { expires: 1 })
+        Cookies.set('admin_access_token', token, { expires: 1 })
         state.setHeader()
-        const userResponse = await axios.post('/auth/me')
+        const userResponse = await axios.post('/admin/auth/me')
         commit('SET_CURRENT_USER', userResponse.data)
         commit('SET_ACCESS_TOKEN', token)
     },
@@ -41,7 +41,7 @@ const actions = {
         if (context.getters.isLoggedIn) {
             context.state.setHeader()
             await axios.post('/auth/logout')
-            Cookies.remove('access_token')
+            Cookies.remove('admin_access_token')
             context.commit('DESTROY_TOKEN')
         }
     },

@@ -11,10 +11,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
-use App\Http\Controllers\Admin\RatingController as AdminRatingController;
+use App\Http\Controllers\Admin\VoteController as AdminRatingController;
 use App\Http\Controllers\Admin\PubController as AdminPubController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DishController as AdminDishController;
+use App\Http\Controllers\Admin\ReportController as AdminReportController;
 
 use App\Models\Category;
 
@@ -100,6 +101,11 @@ Route::group([
         Route::get('index', [AdminCommentController::class, 'index']);
     });
     Route::group([
+        'prefix' => 'report'
+    ], function () {
+        Route::get('index', [AdminReportController::class, 'index']);
+    });
+    Route::group([
         'prefix' => 'user'
     ], function () {
         Route::get('index', [AdminUserController::class, 'index']);
@@ -119,6 +125,7 @@ Route::group([
     ], function () {
         Route::get('index', [AdminPubController::class, 'index']);
         Route::get('{pub}/show', [AdminPubController::class, 'show']);
+        Route::post('create', [AdminPubController::class, 'create']);
     });
     Route::group([
         'prefix' => 'dish'

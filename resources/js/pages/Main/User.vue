@@ -2,7 +2,7 @@
   <v-container>
     <user-table
       :users="users"
-      :loading="loading"
+      :loadingData="loading"
       name="Nekoringo"
       @fetch="fetchData"
     />
@@ -12,19 +12,19 @@
 import axios from 'axios'
 import UserTable from '../../components/UserTable'
 
-export default{
+export default {
   components: {
     UserTable
   },
-  data(){
-    return{
+  data() {
+    return {
       users: [],
       loading: false,
-      error: null,
+      error: null
     }
   },
-  methods:{
-    async fetchData(){
+  methods: {
+    async fetchData() {
       this.loading = true
       this.error = null
       try {
@@ -36,8 +36,8 @@ export default{
       this.loading = false
     }
   },
-  mounted(){
-    if(!this.users.length) this.fetchData()
+  mounted() {
+    if (!this.users.length) this.fetchData()
   }
 }
 </script>

@@ -1,24 +1,43 @@
 <template>
-  <div>Rating page</div>
+  <v-container>
+    <rating-table
+      :ratings="ratings"
+      :loading="loading"
+      name="Nekoringo"
+      @fetch="fetchData"
+    />
+  </v-container>
 </template>
 <script>
-export default{
-  data(){
-    return{
-      
+import axios from 'axios'
+import RatingTable from '../../components/RatingTable'
+
+export default {
+  components: {
+    RatingTable
+  },
+  data() {
+    return {
+      ratings: [],
+      loading: false,
+      error: null
     }
   },
-  methods:{
-    
+  methods: {
+    async fetchData() {
+      this.loading = true
+      this.error = null
+      try {
+        const response = await axios.get(`/admin/rating/index`)
+        this.ratings = response.data.data
+      } catch (err) {
+        this.error = err
+      }
+      this.loading = false
+    }
   },
-  created(){
-    
-  },
-  mounted(){
-    
-  },
-  computed:{
-    
+  mounted() {
+    if (!this.ratings.length) this.fetchData()
   }
 }
 </script>

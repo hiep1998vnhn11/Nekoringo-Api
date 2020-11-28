@@ -32,6 +32,32 @@ class PubController extends AppBaseController
      */
     public function create(PubRequest $request)
     {
+        $pub = new Pub();
+        $pub->user_id = auth()->user()->id;
+        $pub->name = $request->name;
+        $pub->main_email = $request->main_email;
+        $pub->phone_number = $request->phone_number;
+        $pub->description = $request->description;
+        $pub->business_time = $request->business_time;
+        $pub->address = $request->address;
+        $pub->map_path = $request->map_path;
+        $pub->video_path = $request->video_path;
+        $pub->home_photo_path = 'https://www.événementiel.net/wp-content/uploads/2014/02/default-placeholder.png';
+        $pub->save();
+        $image_photo_path = null;
+        if ($request->hasFile('image')) {
+            $image = $request->image;
+            $uploadFolder = 'pubs/' . $pub->id . '/home_image';
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image_photo_path = $image->storeAs($uploadFolder, $imageName, 's3');
+            Storage::disk('s3')->setVisibility($image_photo_path, 'public');
+            $path = Storage::disk('s3')->url($image_photo_path);
+        }
+        if ($path) {
+            $pub->home_photo_path = $path;
+            $pub->save();
+        }
+        return $this->sendRespondSuccess($pub, 'Create Pub successfully!');
     }
 
     /**

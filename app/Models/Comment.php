@@ -11,6 +11,11 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User')->select('name', 'id', 'email');
+    }
+
+    public function pub()
+    {
+        return $this->belongsTo('App\Models\Pub')->select('name', 'id');
     }
 }

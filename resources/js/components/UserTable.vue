@@ -17,7 +17,7 @@
     </v-card-title>
     <v-data-table
       sort-by="id"
-      :loading="loading"
+      :loading="loadingData"
       loading-text="Loading... Please wait"
       :headers="headers"
       :items="users"
@@ -152,8 +152,8 @@
 <script>
 import axios from 'axios'
 export default {
-  data(){
-    return{
+  data() {
+    return {
       search: '',
       dialog: false,
       dialogDelete: false,
@@ -164,78 +164,72 @@ export default {
         {
           text: 'id',
           align: 'start',
-          value: 'id',
+          value: 'id'
         },
         { text: 'Email', value: 'email' },
         { text: 'Name', sortable: false, value: 'name' },
         { text: 'Role', value: 'roles[0].name' },
         { text: 'Phone Number', value: 'phone_number' },
         { text: 'Created at', value: 'created_at' },
-        { text: 'Actions', value: 'actions', sortable: false },
+        { text: 'Actions', value: 'actions', sortable: false }
       ],
-      editedIndex: -1,
-      editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
-      defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
+      editedIndex: -1
     }
   },
   computed: {
-    formTitle () {
+    formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-    },
+    }
   },
-  props: ['users', 'name', 'loading'],
+  props: ['users', 'name', 'loadingData'],
   watch: {
-    dialog (val) {
+    dialog(val) {
       val || this.close()
     },
-    dialogDelete (val) {
+    dialogDelete(val) {
       val || this.closeDelete()
     },
+    dialogBlock(val) {
+      val || this.closeBlock()
+    },
+    dialogUnblock(val) {
+      val || this.closeUnblock()
+    }
   },
   methods: {
     showItem(item) {
-      this.$router.push({name: 'ParamUser', params: {user_id: item.id}})
+      this.$router.push({ name: 'ParamUser', params: { user_id: item.id } })
     },
-    editItem (item) {
+    editItem(item) {
       this.editedIndex = this.users.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
 
-    unblockUser(item){
+    unblockUser(item) {
       this.editedIndex = this.users.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogUnblock = true
     },
 
-    deleteItem (item) {
+    deleteItem(item) {
       this.editedIndex = this.users.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
-    blockUser (item) {
+    blockUser(item) {
       this.editedIndex = this.users.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogBlock = true
     },
 
-    async deleteItemConfirm () {
+    async deleteItemConfirm() {
       this.loading = true
       try {
-        const response = await axios.post(`/admin/user/${this.users[this.editedIndex].id}/delete`)
+        const response = await axios.post(
+          `/admin/user/${this.users[this.editedIndex].id}/delete`
+        )
         Object.assign(this.users[this.editedIndex], response.data.data)
         this.$swal({
           icon: 'success',
@@ -254,10 +248,12 @@ export default {
       this.closeDelete()
     },
 
-    async blockItemConfirm () {
+    async blockItemConfirm() {
       this.loading = true
       try {
-        const response = await axios.post(`/admin/user/${this.users[this.editedIndex].id}/block`)
+        const response = await axios.post(
+          `/admin/user/${this.users[this.editedIndex].id}/block`
+        )
         Object.assign(this.users[this.editedIndex], response.data.data)
         this.$swal({
           icon: 'success',
@@ -275,10 +271,12 @@ export default {
       this.closeBlock()
     },
 
-    async unblockItemConfirm () {
+    async unblockItemConfirm() {
       this.loading = true
       try {
-        const response = await axios.post(`/admin/user/${this.users[this.editedIndex].id}/unblock`)
+        const response = await axios.post(
+          `/admin/user/${this.users[this.editedIndex].id}/unblock`
+        )
         Object.assign(this.users[this.editedIndex], response.data.data)
         this.$swal({
           icon: 'success',
@@ -296,7 +294,7 @@ export default {
       this.closeUnblock()
     },
 
-    close () {
+    close() {
       this.dialog = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
@@ -304,7 +302,7 @@ export default {
       })
     },
 
-    closeDelete () {
+    closeDelete() {
       this.dialogDelete = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
@@ -312,7 +310,7 @@ export default {
       })
     },
 
-    closeBlock () {
+    closeBlock() {
       this.dialogBlock = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
@@ -320,7 +318,7 @@ export default {
       })
     },
 
-    closeUnblock () {
+    closeUnblock() {
       this.dialogUnblock = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
@@ -328,15 +326,15 @@ export default {
       })
     },
 
-    save () {
+    save() {
       if (this.editedIndex > -1) {
         Object.assign(this.users[this.editedIndex], this.editedItem)
       } else {
         this.users.push(this.editedItem)
       }
       this.close()
-    },
-  },
+    }
+  }
 }
 </script>
 

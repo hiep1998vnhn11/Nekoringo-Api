@@ -19,7 +19,7 @@ class VoteController extends AppBaseController
      */
     public function index()
     {
-        $ratings = Rating::orderBy('created_at', 'desc')->paginate(10);
+        $ratings = Rating::with(['user', 'pub'])->orderBy('created_at', 'desc')->get();
         return $this->sendRespondSuccess($ratings, 'Get rating successfully!');
     }
 

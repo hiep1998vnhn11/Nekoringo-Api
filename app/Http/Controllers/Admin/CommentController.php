@@ -20,7 +20,7 @@ class CommentController extends AppBaseController
      */
     public function index()
     {
-        $comments = Comment::orderBy('created_at', 'desc')->paginate(10);
+        $comments = Comment::with('user', 'pub')->orderBy('created_at', 'desc')->get();
         return $this->sendRespondSuccess($comments, 'Get all comment successfully!');
     }
 
