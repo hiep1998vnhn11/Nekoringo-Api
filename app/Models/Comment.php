@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User')->select('name', 'id', 'email');
+    }
+
+    public function pub()
+    {
+        return $this->belongsTo('App\Models\Pub')->select('name', 'id');
+    }
+
+    public function reports()
+    {
+        return $this->hasMany('App\Models\Report');
+    }
 }

@@ -27,7 +27,7 @@ class DishRequest extends FormRequest
             'name' => 'required|max:50|string',
             'description' => 'required|max:255',
             'category' => 'required',
-            'image' => 'required'
+            'image' => 'mimes:jpeg,png|max:10000'
         ];
     }
 }

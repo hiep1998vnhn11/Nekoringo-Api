@@ -7,6 +7,7 @@ use App\Models\Pub;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class RatingController extends AppBaseController
 {
@@ -30,13 +31,14 @@ class RatingController extends AppBaseController
             $rating->save();
             if ($request->hasFile('image')) {
                 $image = $request->image;
-                $uploadFolder = 'public/pubs/' . $pub->id . '/rating_image';
+                $uploadFolder = 'pubs/' . $pub->id . '/rating_image';
                 $imageName = time() . '_' . $image->getClientOriginalName();
-                $path = $image->storeAs($uploadFolder, $imageName);
-                $image_photo_path = env('APP_URL') . '/storage/' . Str::after($path, 'public/');
+                $image_photo_path = $image->storeAs($uploadFolder, $imageName, 's3');
+                Storage::disk('s3')->setVisibility($image_photo_path, 'public');
+                $path = Storage::disk('s3')->url($image_photo_path);
             }
-            if ($image_photo_path) {
-                $rating->image_path = $image_photo_path;
+            if ($path) {
+                $rating->image_path = $path;
                 $rating->save();
             }
             return $this->sendRespondSuccess($rating, 'Rate successfully!');
