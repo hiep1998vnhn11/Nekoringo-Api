@@ -29,3 +29,12 @@ foreach($users as $user) {
   $user->assignRole($userRole);
 }
 ```
+
+### Publican role update:
+
+Update Publican role to nekoringo
+
+```
+  use Spatie\Permission\Models\Role;
+  $role4 = Role::create(['name' => 'publican']);
+```
