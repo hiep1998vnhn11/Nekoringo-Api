@@ -25,7 +25,7 @@
     <v-navigation-drawer v-model="drawer" app>
       <v-sheet color="grey lighten-3" class="pa-4 text-center">
         <v-avatar size="64">
-          <img :src="currentUser.profile_photo_path" />
+          <v-img :src="currentUser.profile_photo_path" />
         </v-avatar>
         <div>{{ currentUser.email }}</div>
       </v-sheet>
@@ -39,7 +39,7 @@
           <v-list-item-icon>
             <v-icon>mdi-home</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>{{ $t('Admin.Dashboard') }}</v-list-item-title>
+          <v-list-item-title>{{ $t("Admin.Dashboard") }}</v-list-item-title>
         </v-list-item>
 
         <v-list-group
@@ -47,7 +47,7 @@
           prepend-icon="mdi-account-circle"
         >
           <template v-slot:activator>
-            <v-list-item-title>{{ $t('Admin.Users') }}</v-list-item-title>
+            <v-list-item-title>{{ $t("Admin.Users") }}</v-list-item-title>
           </template>
           <v-list-item
             link
@@ -73,7 +73,7 @@
           prepend-icon="mdi-store"
         >
           <template v-slot:activator>
-            <v-list-item-title>{{ $t('Admin.Pubs') }}</v-list-item-title>
+            <v-list-item-title>{{ $t("Admin.Pubs") }}</v-list-item-title>
           </template>
           <v-list-item
             link
@@ -95,7 +95,7 @@
           prepend-icon="mdi-comment-multiple-outline"
         >
           <template v-slot:activator>
-            <v-list-item-title>{{ $t('Admin.Comments') }}</v-list-item-title>
+            <v-list-item-title>{{ $t("Admin.Comments") }}</v-list-item-title>
           </template>
           <v-list-item
             link
@@ -117,7 +117,7 @@
           prepend-icon="mdi-star-outline"
         >
           <template v-slot:activator>
-            <v-list-item-title>{{ $t('Admin.Ratings') }}</v-list-item-title>
+            <v-list-item-title>{{ $t("Admin.Ratings") }}</v-list-item-title>
           </template>
           <v-list-item
             link
@@ -139,7 +139,7 @@
           prepend-icon="mdi-pot"
         >
           <template v-slot:activator>
-            <v-list-item-title>{{ $t('Admin.Dishes') }}</v-list-item-title>
+            <v-list-item-title>{{ $t("Admin.Dishes") }}</v-list-item-title>
           </template>
           <v-list-item
             link
@@ -174,75 +174,75 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
-    const _this = this
+    const _this = this;
     return {
-      cards: ['Today', 'Yesterday'],
+      cards: ["Today", "Yesterday"],
       drawer: null,
       users: [
         {
-          text: _this.$t('Admin.Management'),
-          icon: 'mdi-account-multiple-outline',
-          name: 'User'
+          text: _this.$t("Admin.Management"),
+          icon: "mdi-account-multiple-outline",
+          name: "User"
         }
       ],
       pubs: [
         {
-          text: _this.$t('Admin.Management'),
-          icon: 'mdi-account-multiple-outline',
-          name: 'Pub'
+          text: _this.$t("Admin.Management"),
+          icon: "mdi-account-multiple-outline",
+          name: "Pub"
         },
         {
-          text: _this.$t('Admin.Request'),
-          icon: 'mdi-comment-question-outline',
-          name: 'PubRequest'
+          text: _this.$t("Admin.Request"),
+          icon: "mdi-comment-question-outline",
+          name: "PubRequest"
         }
       ],
       comments: [
         {
-          text: _this.$t('Admin.Management'),
-          icon: 'mdi-account-multiple-outline',
-          name: 'Comment'
+          text: _this.$t("Admin.Management"),
+          icon: "mdi-account-multiple-outline",
+          name: "Comment"
         },
         {
-          text: _this.$t('Admin.Report'),
-          icon: 'mdi-message-alert',
-          name: 'Report'
+          text: _this.$t("Admin.Report"),
+          icon: "mdi-message-alert",
+          name: "Report"
         }
       ],
       ratings: [
         {
-          text: _this.$t('Admin.Management'),
-          icon: 'mdi-account-multiple-outline',
-          name: 'Rating'
+          text: _this.$t("Admin.Management"),
+          icon: "mdi-account-multiple-outline",
+          name: "Rating"
         }
       ],
       dishes: [
         {
-          text: _this.$t('Admin.Management'),
-          icon: 'mdi-account-multiple-outline',
-          name: 'Dish'
+          text: _this.$t("Admin.Management"),
+          icon: "mdi-account-multiple-outline",
+          name: "Dish"
         },
         {
-          text: _this.$t('Admin.Request'),
-          icon: 'mdi-comment-question-outline',
-          name: 'DishRequest'
+          text: _this.$t("Admin.Request"),
+          icon: "mdi-comment-question-outline",
+          name: "DishRequest"
         }
       ],
-      search: ''
-    }
+      search: ""
+    };
   },
   computed: {
-    ...mapGetters('user', ['currentUser'])
+    ...mapGetters("user", ["currentUser"])
   },
   methods: {
-    ...mapActions('user', ['logout']),
+    ...mapActions("user", ["logout"]),
     async onLogout() {
-      await this.logout()
-      this.$router.push({ name: 'Login' })
+      await this.logout();
+      this.$router.push({ name: "Login" });
     }
   }
-}
+};
 </script>

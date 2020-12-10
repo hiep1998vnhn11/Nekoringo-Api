@@ -31,7 +31,6 @@ class AuthController extends AppBaseController
         if (!$token = auth()->setTTL(7200)->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
         return $this->respondWithToken($token);
     }
 
@@ -57,7 +56,9 @@ class AuthController extends AppBaseController
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        $user = auth()->user();
+        $user->roles;
+        return response()->json($user);
     }
 
     /**

@@ -57,5 +57,9 @@ class PermissionSeeder extends Seeder
         Role::create(['name' => 'blocked']);
         // Don't get any permission
 
+        //New role publican
+        $role4 = Role::create(['name' => 'publican']);
+        $role4->givePermissionTo('create pub');
+        $role4->givePermissionTo('delete pub');
     }
 }

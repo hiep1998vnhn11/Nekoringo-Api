@@ -16,9 +16,11 @@ use App\Http\Controllers\Admin\VoteController as AdminRatingController;
 use App\Http\Controllers\Admin\PubController as AdminPubController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DishController as AdminDishController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
-
-use App\Models\Category;
+use App\Http\Controllers\RequestController;
+use App\Http\Controllers\Admin\RequestController as AdminRequestController;
 
 
 /*
@@ -69,6 +71,7 @@ Route::group([
         Route::post('{pub}/dish/change', [PubController::class, 'changeDish']);
         Route::post('{pub}/dish/{dish}/add', [PubController::class, 'addDish']);
         Route::post('{pub}/dish/{dish}/delete', [PubController::class, 'deleteDish']);
+        Route::post('{pub}/order', [OrderController::class, 'create']);
     });
 
     Route::group(['prefix' => 'dish'], function () {
@@ -87,6 +90,15 @@ Route::group([
         Route::get('{category}/get', [CategoryController::class, 'get']);
         Route::post('create', [CategoryController::class, 'create']);
         Route::post('{category}/delete', [CategoryController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'order'], function () {
+        Route::get('store', [OrderController::class, 'index']);
+        Route::post('{order}/delete', [OrderController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'request'], function () {
+        Route::post('publican/create', [RequestController::class, 'makePublicanRequest']);
     });
 });
 
@@ -136,5 +148,18 @@ Route::group([
         Route::post('{dish}/update', [AdminDishController::class, 'update']);
         Route::post('{dish}/delete', [AdminDishController::class, 'destroy']);
         Route::post('create', [AdminDishController::class, 'create']);
+    });
+
+    Route::group(['prefix' => 'order'], function () {
+        Route::get('store', [AdminOrderController::class, 'index']);
+        Route::post('{order}/delete', [AdminOrderController::class, 'delete']);
+        Route::post('{order}/cancel', [AdminOrderController::class, 'cancel']);
+        Route::post('{order}/accept', [AdminOrderController::class, 'accept']);
+    });
+
+    Route::group(['prefix' => 'request'], function () {
+        Route::get('store', [AdminRequestController::class, 'index']);
+        Route::post('{request}/accept', [AdminRequestController::class, 'accept']);
+        Route::post('{request}/cancel', [AdminRequestController::class, 'cancel']);
     });
 });
