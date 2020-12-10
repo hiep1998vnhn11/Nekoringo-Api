@@ -15,6 +15,8 @@ class RequestController extends AppBaseController
 
     public function makePublicanRequest()
     {
+        $requests = auth()->user()->requests()->where('name', 'Publican')->first();
+        if ($requests) return $this->sendRespondError($requests, 'You had been requested to server!');
         $request = new ModelsRequest();
         $request->name = 'Publican';
         $request->user_id = auth()->user()->id;
