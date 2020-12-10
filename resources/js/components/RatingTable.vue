@@ -74,6 +74,10 @@
         </v-toolbar>
       </template>
 
+      <template v-slot:item.rates="{ item }">
+        <v-rating readonly size="15" :value="item.rate"></v-rating>
+      </template>
+
       <template v-slot:item.actions="{ item }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
@@ -101,7 +105,7 @@
           <v-icon v-if="isOpen">mdi-plus</v-icon>
           <v-icon v-else>mdi-minus</v-icon>
           <span class="mx-5 font-weight-bold">
-            {{ groupBy === 'user.name' ? 'Username' : 'Pub' }}: {{ group }}
+            {{ groupBy === "user.name" ? "Username" : "Pub" }}: {{ group }}
           </span>
         </td>
       </template>
@@ -114,111 +118,112 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   data() {
     return {
-      search: '',
+      search: "",
       dialog: false,
       dialogDelete: false,
       loadingD: false,
       headers: [
         {
-          text: 'id',
-          align: 'start',
-          value: 'id'
+          text: "id",
+          align: "start",
+          value: "id"
         },
-        { text: 'Email', value: 'user.email' },
-        { text: 'Name', value: 'user.name' },
-        { text: 'Pub', value: 'pub.name' },
-        { text: 'Content', value: 'content' },
-        { text: 'Image', sortable: false, value: 'image' },
-        { text: 'Actions', value: 'actions', sortable: false }
+        { text: "Email", value: "user.email" },
+        { text: "Name", value: "user.name" },
+        { text: "Pub", value: "pub.name" },
+        { text: "Content", value: "content" },
+        { text: "Rate", value: "rates" },
+        { text: "Image", sortable: false, value: "image" },
+        { text: "Actions", value: "actions", sortable: false }
       ],
       editedIndex: -1,
       groupBy: null
-    }
+    };
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+      return this.editedIndex === -1 ? "New Item" : "Edit Item";
     }
   },
-  props: ['ratings', 'name', 'loading'],
+  props: ["ratings", "name", "loading"],
   watch: {
     dialog(val) {
-      val || this.close()
+      val || this.close();
     },
     dialogDelete(val) {
-      val || this.closeDelete()
+      val || this.closeDelete();
     }
   },
   methods: {
     showItem(item) {
-      this.$router.push({ name: 'ParamUser', params: { user_id: item.id } })
+      this.$router.push({ name: "ParamUser", params: { user_id: item.id } });
     },
     editItem(item) {
-      this.editedIndex = this.ratings.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
+      this.editedIndex = this.ratings.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
 
     deleteItem(item) {
-      this.editedIndex = this.ratings.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialogDelete = true
+      this.editedIndex = this.ratings.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
     },
 
     async deleteItemConfirm() {
-      this.loadingD = true
+      this.loadingD = true;
       try {
         const response = await axios.post(
           `/admin/comment/${this.ratings[this.editedIndex].id}/delete`
-        )
-        Object.assign(this.ratings[this.editedIndex], response.data.data)
+        );
+        Object.assign(this.ratings[this.editedIndex], response.data.data);
         this.$swal({
-          icon: 'success',
-          title: 'Success',
+          icon: "success",
+          title: "Success",
           text: response.data.message
-        })
+        });
       } catch (err) {
         this.$swal({
-          icon: 'error',
-          title: 'Error',
+          icon: "error",
+          title: "Error",
           text: err.toString()
-        })
+        });
       }
-      this.loadingD = false
-      this.ratings.splice(this.editedIndex, 1)
-      this.closeDelete()
+      this.loadingD = false;
+      this.ratings.splice(this.editedIndex, 1);
+      this.closeDelete();
     },
 
     close() {
-      this.dialog = false
+      this.dialog = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
     },
 
     closeDelete() {
-      this.dialogDelete = false
+      this.dialogDelete = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
     },
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.ratings[this.editedIndex], this.editedItem)
+        Object.assign(this.ratings[this.editedIndex], this.editedItem);
       } else {
-        this.ratings.push(this.editedItem)
+        this.ratings.push(this.editedItem);
       }
-      this.close()
+      this.close();
     }
   }
-}
+};
 </script>
 
 <style>

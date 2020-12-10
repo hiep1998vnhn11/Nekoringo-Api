@@ -1,26 +1,44 @@
 <template>
-  <div>Pub request</div>
+  <v-container>
+    <publican-request-table
+      :requests="requests"
+      :loading="loading"
+      name="Nekoringo"
+      @fetch="fetchData"
+    />
+  </v-container>
 </template>
 <script>
-export default{
-  data(){
-    return{
-      
+import PublicanRequestTable from "../../../components/PublicanRequestTable";
+import axios from "axios";
+export default {
+  data() {
+    return {
+      requests: [],
+      loading: false,
+      error: null
+    };
+  },
+  methods: {
+    async fetchData() {
+      this.loading = true;
+      try {
+        const response = await axios.get("/admin/request/store");
+        this.requests = response.data.data;
+      } catch (err) {
+        this.error = err;
+      }
     }
   },
-  methods:{
-    
+  created() {},
+  mounted() {
+    this.fetchData();
   },
-  created(){
-    
-  },
-  mounted(){
-    
-  },
-  computed:{
-    
+  computed: {},
+  components: {
+    PublicanRequestTable
   }
-}
+};
 </script>
 <style scoped>
 </style>

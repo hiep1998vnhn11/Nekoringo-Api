@@ -21,7 +21,8 @@ class RequestController extends AppBaseController
     public function index()
     {
         $requests = ModelsRequest::where('status', 'pending')
-            ->orderBy('created', 'desc')
+            ->with('user')
+            ->orderBy('created_at', 'desc')
             ->get();
         return $this->sendRespondSuccess($requests, 'Get request successfully!');
     }
@@ -45,5 +46,11 @@ class RequestController extends AppBaseController
         $request->status = 'canceled';
         $request->save();
         return $this->sendRespondSuccess($request, 'Cancel successfully!');
+    }
+
+    public function delete(ModelsRequest $request)
+    {
+        $request->delete();
+        return $this->sendRespondSuccess($request, 'Delete request successfully!');
     }
 }

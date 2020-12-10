@@ -161,5 +161,6 @@ Route::group([
         Route::get('store', [AdminRequestController::class, 'index']);
         Route::post('{request}/accept', [AdminRequestController::class, 'accept']);
         Route::post('{request}/cancel', [AdminRequestController::class, 'cancel']);
+        Route::post('{request}/delete', [AdminRequestController::class, 'delete']);
     });
 });

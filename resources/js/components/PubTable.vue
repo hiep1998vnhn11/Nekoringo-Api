@@ -40,7 +40,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                New Item
+                Create
               </v-btn>
             </template>
             <v-card>
@@ -184,198 +184,198 @@
 <script>
 export default {
   data() {
-    const _this = this
+    const _this = this;
     return {
-      search: '',
+      search: "",
       valid: true,
       dialog: false,
       dialogDelete: false,
       headers: [
         {
-          text: 'id',
-          align: 'start',
-          value: 'id'
+          text: "id",
+          align: "start",
+          value: "id"
         },
-        { text: 'Name', sortable: false, value: 'name' },
-        { text: 'Email', value: 'main_email' },
-        { text: 'Description', value: 'description' },
-        { text: 'Address', value: 'address' },
-        { text: 'Phone Number', value: 'phone_number' },
-        { text: 'Actions', value: 'actions', sortable: false }
+        { text: "Name", sortable: false, value: "name" },
+        { text: "Email", value: "main_email" },
+        { text: "Description", value: "description" },
+        { text: "Address", value: "address" },
+        { text: "Phone Number", value: "phone_number" },
+        { text: "Actions", value: "actions", sortable: false }
       ],
       editedIndex: -1,
       editedItem: {
-        name: '',
-        main_email: '',
-        description: '',
-        address: '',
-        phone_number: '',
-        map_path: '',
-        video_path: '',
+        name: "",
+        main_email: "",
+        description: "",
+        address: "",
+        phone_number: "",
+        map_path: "",
+        video_path: "",
         photo_path: null,
         image: null
       },
       defaultItem: {
-        name: '',
-        main_email: '',
-        description: '',
-        address: '',
-        phone_number: '',
-        map_path: '',
-        video_path: '',
+        name: "",
+        main_email: "",
+        description: "",
+        address: "",
+        phone_number: "",
+        map_path: "",
+        video_path: "",
         photo_path: null,
         image: null
       },
       expanded: [],
       singleExpand: false,
       mapRules: [
-        v => !!v || _this.$t('Required'),
+        v => !!v || _this.$t("Required"),
         v =>
-          v.indexOf('https://www.google.com/maps/embed') === 0 ||
-          _this.$t('Please input correct link to embedded the map')
+          v.indexOf("https://www.google.com/maps/embed") === 0 ||
+          _this.$t("Please input correct link to embedded the map")
       ],
       videoRules: [
-        v => !!v || _this.$t('Required'),
+        v => !!v || _this.$t("Required"),
         v =>
-          v.indexOf('https://www.youtube.com/embed') === 0 ||
-          _this.$t('Please input correct link to embedded the video')
+          v.indexOf("https://www.youtube.com/embed") === 0 ||
+          _this.$t("Please input correct link to embedded the video")
       ]
-    }
+    };
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+      return this.editedIndex === -1 ? "New Item" : "Edit Item";
     }
   },
-  props: ['pubs', 'name', 'loading'],
+  props: ["pubs", "name", "loading"],
   watch: {
     dialog(val) {
-      val || this.close()
+      val || this.close();
     },
     dialogDelete(val) {
-      val || this.closeDelete()
+      val || this.closeDelete();
     }
   },
   methods: {
     showItem(item) {
-      this.$router.push({ name: 'ParamPub', params: { pub_id: item.id } })
+      this.$router.push({ name: "ParamPub", params: { pub_id: item.id } });
     },
     editItem(item) {
-      this.editedIndex = this.users.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
+      this.editedIndex = this.users.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
 
     deleteItem(item) {
-      this.editedIndex = this.users.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialogDelete = true
+      this.editedIndex = this.users.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
     },
 
     deleteItemConfirm() {
-      this.users.splice(this.editedIndex, 1)
-      this.closeDelete()
+      this.users.splice(this.editedIndex, 1);
+      this.closeDelete();
     },
 
     close() {
-      this.dialog = false
+      this.dialog = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-        this.$refs.form.reset()
-      })
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+        this.$refs.form.reset();
+      });
     },
 
     closeDelete() {
-      this.dialogDelete = false
+      this.dialogDelete = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
     },
 
     async save() {
-      await this.$refs.form.validate()
-      if (!this.valid) return
-      this.loadingSave = true
-      this.error = null
+      await this.$refs.form.validate();
+      if (!this.valid) return;
+      this.loadingSave = true;
+      this.error = null;
       try {
-        let response = null
+        let response = null;
         if (this.editedIndex > -1) {
           // edit
-          const formData = new FormData()
+          const formData = new FormData();
           if (
             this.dishes[this.editedIndex].category !== this.editedItem.category
           ) {
-            formData.append('category', this.editedItem.category.id)
+            formData.append("category", this.editedItem.category.id);
           }
           if (this.dishes[this.editedIndex].name !== this.editedItem.name) {
-            formData.append('name', this.editedItem.name)
+            formData.append("name", this.editedItem.name);
           }
           if (
             this.dishes[this.editedIndex].description !==
             this.editedItem.description
           ) {
-            formData.append('description', this.editedItem.description)
+            formData.append("description", this.editedItem.description);
           }
           if (
             this.dishes[this.editedIndex].photo_path !==
               this.editedItem.photo_path &&
             this.editedItem.image
           ) {
-            formData.append('image', this.editedItem.image)
+            formData.append("image", this.editedItem.image);
           }
           if (
             formData.has(
-              'category' ||
-                formData.has('name') ||
-                formData.has('description') ||
-                formData.has('image')
+              "category" ||
+                formData.has("name") ||
+                formData.has("description") ||
+                formData.has("image")
             )
           ) {
-            const url = `/admin/dish/${this.editedItem.id}/update`
+            const url = `/admin/dish/${this.editedItem.id}/update`;
             response = await axios.post(url, formData, {
               headers: {
-                'Content-Type': 'multipart/form-data'
+                "Content-Type": "multipart/form-data"
               }
-            })
-            Object.assign(this.dishes[this.editedIndex], this.editedItem)
+            });
+            Object.assign(this.dishes[this.editedIndex], this.editedItem);
           }
         } else {
           //create
-          let formData = new FormData()
-          formData.append('address', this.editedItem.address)
-          formData.append('name', this.editedItem.name)
-          formData.append('phone_number', this.editedItem.phone_number)
-          formData.append('main_email', this.editedItem.main_email)
-          formData.append('video_path', this.editedItem.video_path)
-          formData.append('map_path', this.editedItem.map_path)
-          formData.append('description', this.editedItem.description)
-          formData.append('image', this.editedItem.image)
-          const url = `/admin/pub/create`
+          let formData = new FormData();
+          formData.append("address", this.editedItem.address);
+          formData.append("name", this.editedItem.name);
+          formData.append("phone_number", this.editedItem.phone_number);
+          formData.append("main_email", this.editedItem.main_email);
+          formData.append("video_path", this.editedItem.video_path);
+          formData.append("map_path", this.editedItem.map_path);
+          formData.append("description", this.editedItem.description);
+          formData.append("image", this.editedItem.image);
+          const url = `/admin/pub/create`;
           response = await axios.post(url, formData, {
             headers: {
-              'Content-Type': 'multipart/form-data'
+              "Content-Type": "multipart/form-data"
             }
-          })
-          console.log(response.data)
-          this.dishes.push(response.data.data)
+          });
+          console.log(response.data);
+          this.dishes.push(response.data.data);
         }
         this.$swal({
-          icon: 'success',
-          title: 'Success',
+          icon: "success",
+          title: "Success",
           text: response.data.message
-        })
+        });
       } catch (err) {
-        this.error = err.toString()
+        this.error = err.toString();
         this.$swal({
-          icon: 'error',
-          title: 'Error',
+          icon: "error",
+          title: "Error",
           text: this.error
-        })
+        });
       }
-      this.loadingSave = false
-      this.close()
+      this.loadingSave = false;
+      this.close();
     },
 
     onFileChange: function() {
@@ -383,19 +383,19 @@ export default {
       // Ensure that you have a file before attempting to read it
       if (this.editedItem.image) {
         // create a new FileReader to read this image and convert to base64 format
-        var reader = new FileReader()
+        var reader = new FileReader();
         // Define a callback function to run, when FileReader finishes its job
         reader.onload = e => {
           // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
           // Read image as base64 and set to imageData
-          this.editedItem.photo_path = e.target.result
-        }
+          this.editedItem.photo_path = e.target.result;
+        };
         // Start the reader job - read file as a data url (base64 format)
-        reader.readAsDataURL(this.editedItem.image)
+        reader.readAsDataURL(this.editedItem.image);
       }
     }
   }
-}
+};
 </script>
 
 <style>
