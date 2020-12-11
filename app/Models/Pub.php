@@ -28,4 +28,9 @@ class Pub extends Model
     {
         return $this->hasMany('App\Models\Pub_has_Dish');
     }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Models\Order');
+    }
 }

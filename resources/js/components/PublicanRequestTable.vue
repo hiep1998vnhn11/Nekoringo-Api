@@ -129,9 +129,6 @@
           <span>Delete Request</span>
         </v-tooltip>
       </template>
-      <template v-slot:no-data>
-        <v-btn color="primary" @click="$emit('fetch')"> Reset </v-btn>
-      </template>
     </v-data-table>
   </v-card>
 </template>

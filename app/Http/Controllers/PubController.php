@@ -18,6 +18,7 @@ class PubController extends AppBaseController
     public function __construct()
     {
         $this->middleware('auth:api')->except(['get', 'store', 'storeDish']);
+        $this->middleware('role:publican')->except(['get', 'store', 'storeDish']);
     }
     public function create(PubRequest $request)
     {
@@ -78,6 +79,14 @@ class PubController extends AppBaseController
             $comment->user;
         }
         $pub->loadCount('comments');
+
+        if (auth()->user() && auth()->user()->hasRole('viewer')) {
+            $order = auth()->user()->orders()->where('pub_id', $pub->id)
+                ->where('status', 'accepted')
+                ->first();
+            if ($order) $pub->isOrder = true;
+            else $pub->isOrder = false;
+        }
         return $this->sendRespondSuccess($pub, 'Get successfully!');
     }
 

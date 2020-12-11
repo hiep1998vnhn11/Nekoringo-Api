@@ -21,6 +21,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\Admin\RequestController as AdminRequestController;
+use App\Http\Controllers\Publican\OrderController as PublicanOrderController;
 
 
 /*
@@ -162,5 +163,17 @@ Route::group([
         Route::post('{request}/accept', [AdminRequestController::class, 'accept']);
         Route::post('{request}/cancel', [AdminRequestController::class, 'cancel']);
         Route::post('{request}/delete', [AdminRequestController::class, 'delete']);
+    });
+});
+
+Route::group([
+    'prefix' => 'publican',
+    'middleware' => 'role:publican'
+], function () {
+    Route::group(['prefix' => 'order'], function () {
+        Route::get('store', [PublicanOrderController::class, 'index']);
+        Route::post('{order}/accept', [PublicanOrderController::class, 'accept']);
+        Route::post('{order}/cancel', [PublicanOrderController::class, 'cancel']);
+        Route::post('{order}/delete', [PublicanOrderController::class, 'delete']);
     });
 });

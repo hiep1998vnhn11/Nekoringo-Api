@@ -13,4 +13,9 @@ class Order extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function pub()
+    {
+        return $this->belongsTo('App\Models\Pub');
+    }
 }

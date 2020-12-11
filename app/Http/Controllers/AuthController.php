@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends AppBaseController
 {
@@ -46,6 +47,8 @@ class AuthController extends AppBaseController
         $user->name = $request->name;
         $user->password = bcrypt($request->password);
         $user->save();
+        $viewerRole = Role::find(1);
+        $user->assignRole($viewerRole);
         return $this->sendRespondSuccess($user, 'Register Successfully!');
     }
 
