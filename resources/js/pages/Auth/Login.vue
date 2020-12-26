@@ -3,7 +3,7 @@
     <v-col md="6" offset-md="3">
       <div class="text-center">
         <span class="text-h6 orange--text lighten-3">
-          {{ $t('Admin.WelcomeNekoringoAdmin') }}
+          {{ $t("Admin.WelcomeNekoringoAdmin") }}
         </span>
         <v-img
           class="mx-auto"
@@ -20,7 +20,7 @@
             type="success"
             height="50"
           >
-            {{ $t('Register Successfully! Please login') }}
+            {{ $t("Register Successfully! Please login") }}
           </v-alert>
           <v-alert
             v-if="error"
@@ -50,7 +50,7 @@
               class="text-h6 text-capitalize"
               @click="onLogin"
             >
-              {{ $t('common.login') }}
+              {{ $t("common.login") }}
             </v-btn>
           </v-form>
         </v-container>
@@ -59,70 +59,70 @@
   </v-container>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
-  data(){
-    const _this = this
+  data() {
+    const _this = this;
     return {
       valid: true,
       email: null,
       password: null,
       emailRules: [
-        v => !!v || _this.$t('E-mail is required!'),
-        v => /.+@.+/.test(v) || _this.$t('E-mail must be valid')
+        v => !!v || _this.$t("E-mail is required!"),
+        v => /.+@.+/.test(v) || _this.$t("E-mail must be valid")
       ],
-      passwordRules: [v => !!v || _this.$t('Password is required!')],
+      passwordRules: [v => !!v || _this.$t("Password is required!")],
       registerSuccess: false,
       loading: false,
       error: null,
       loginError: false
-    }
+    };
   },
-  computed: mapGetters('user', ['isLoggedIn']),
+  computed: mapGetters("user", ["isLoggedIn"]),
 
   methods: {
     async onLogin() {
       if (!this.password || !this.email) {
-        this.$refs.form.validate()
-        return
+        this.$refs.form.validate();
+        return;
       }
-      if (!this.valid) return
-      this.loading = true
-      this.error = null
+      if (!this.valid) return;
+      this.loading = true;
+      this.error = null;
       try {
         await this.$store.dispatch(
-          'user/login',
+          "user/login",
           {
             email: this.email,
             password: this.password
           },
           { root: true }
-        )
-        this.$router.push({ name: 'Dashboard' })
+        );
+        this.$router.push({ name: "Pub" });
       } catch (err) {
-        this.error = err.response
-        this.loginError = true
+        this.error = err.response;
+        this.loginError = true;
       }
-      this.loading = false
+      this.loading = false;
     }
   },
   watch: {
     registerSuccess: function() {
       if (this.registerSuccess === true) {
-        const vm = this
+        const vm = this;
         setTimeout(function() {
-          vm.registerSuccess = false
-        }, 2000)
+          vm.registerSuccess = false;
+        }, 2000);
       }
     },
     loginError: function() {
       if (this.loginError === true) {
-        const vm = this
+        const vm = this;
         setTimeout(function() {
-          vm.registerSuccess = false
-        }, 2000)
+          vm.registerSuccess = false;
+        }, 2000);
       }
     }
   }
-}
+};
 </script>

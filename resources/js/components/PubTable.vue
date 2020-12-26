@@ -197,6 +197,7 @@ export default {
           value: "id"
         },
         { text: "Name", sortable: false, value: "name" },
+        { text: "Publican", value: "user.name" },
         { text: "Email", value: "main_email" },
         { text: "Description", value: "description" },
         { text: "Address", value: "address" },

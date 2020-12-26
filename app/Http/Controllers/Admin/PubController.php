@@ -21,7 +21,7 @@ class PubController extends AppBaseController
      */
     public function index()
     {
-        $pubs = Pub::orderBy('created_at', 'desc')->get();
+        $pubs = Pub::orderBy('created_at', 'desc')->with('user')->get();
         return $this->sendRespondSuccess($pubs, 'Get pub successfully!');
     }
 

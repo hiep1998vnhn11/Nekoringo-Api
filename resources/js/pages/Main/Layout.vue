@@ -32,16 +32,6 @@
       <v-divider></v-divider>
 
       <v-list>
-        <v-list-item
-          :to="{ name: 'Dashboard' }"
-          active-class="orange--text lighten-1"
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>{{ $t("Admin.Dashboard") }}</v-list-item-title>
-        </v-list-item>
-
         <v-list-group
           :value="$route.name === 'User' || $route.name === 'ParamUser'"
           prepend-icon="mdi-account-circle"

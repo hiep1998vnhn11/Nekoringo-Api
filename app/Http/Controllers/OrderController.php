@@ -17,6 +17,10 @@ class OrderController extends AppBaseController
     public function index()
     {
         $orders = auth()->user()->orders;
+        foreach ($orders as $order) {
+            $order->user;
+            $order->pub;
+        }
         return $this->sendRespondSuccess($orders, 'Get successfully!');
     }
 
@@ -26,6 +30,7 @@ class OrderController extends AppBaseController
         $order->user_id = auth()->user()->id;
         $order->pub_id = $pub->id;
         $order->time = $request->time;
+        $order->amount = $request->amount;
         $order->save();
         return $this->sendRespondSuccess($order, 'Make order successfully!');
     }

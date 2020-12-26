@@ -21,6 +21,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\Admin\RequestController as AdminRequestController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Publican\OrderController as PublicanOrderController;
 
 
@@ -101,6 +102,16 @@ Route::group([
     Route::group(['prefix' => 'request'], function () {
         Route::post('publican/create', [RequestController::class, 'makePublicanRequest']);
     });
+
+    Route::group(
+        [
+            'prefix' => 'notification'
+        ],
+        function () {
+            Route::get('get', [NotificationController::class, 'get']);
+            Route::post('get_number_unread', [NotificationController::class, 'getAmountUnread']);
+        }
+    );
 });
 
 Route::post('auth/admin/login', [AdminAuthController::class, 'login']);

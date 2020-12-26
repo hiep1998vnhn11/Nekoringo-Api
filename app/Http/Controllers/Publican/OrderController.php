@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Publican;
 
 use App\Http\Controllers\AppBaseController;
 use App\Models\Order;
+use App\Notifications\InvoicePaid;
 use Illuminate\Http\Request;
 
 class OrderController extends AppBaseController
@@ -18,6 +19,7 @@ class OrderController extends AppBaseController
         $orders = auth()->user()->pubOrders;
         foreach ($orders as $order) {
             $order->user;
+            $order->pub;
         }
         return $this->sendRespondSuccess($orders, 'Successfully!');
     }
@@ -26,6 +28,8 @@ class OrderController extends AppBaseController
     {
         $order->status = 'accepted';
         $order->save();
+        $order->pub;
+        $order->user->notify(new InvoicePaid($order));
         return $this->sendRespondSuccess($order, 'Accept successfully!');
     }
 
@@ -33,6 +37,8 @@ class OrderController extends AppBaseController
     {
         $order->status = 'canceled';
         $order->save();
+        $order->pub;
+        $order->user->notify(new InvoicePaid($order));
         return $this->sendRespondSuccess($order, 'Cancel successfully!');
     }
 

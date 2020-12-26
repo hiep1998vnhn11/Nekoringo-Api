@@ -24,7 +24,8 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'time' => 'required'
+            'time' => 'required',
+            'amount' => 'required'
         ];
     }
 }
