@@ -79,7 +79,6 @@ class PubController extends AppBaseController
             $comment->user;
         }
         $pub->loadCount('comments');
-
         if (auth()->user() && auth()->user()->hasRole('viewer')) {
             $order = auth()->user()->orders()->where('pub_id', $pub->id)
                 ->where('status', 'accepted')
@@ -93,7 +92,6 @@ class PubController extends AppBaseController
     public function store()
     {
         $pubs = Pub::orderBy('created_at', 'desc')->paginate(6);
-
         return $this->sendRespondSuccess($pubs, 'Get Pubs successfully!');
     }
 

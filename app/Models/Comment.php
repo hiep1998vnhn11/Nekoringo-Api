@@ -11,7 +11,7 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User')->select('name', 'id', 'email');
+        return $this->belongsTo('App\Models\User')->select('name', 'id', 'email', 'profile_photo_path');
     }
 
     public function pub()

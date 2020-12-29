@@ -42,7 +42,7 @@ class RatingController extends AppBaseController
                 $rating->save();
             }
             return $this->sendRespondSuccess($rating, 'Rate successfully!');
-        } else return $this->sendRespondSuccess($isRated, 'You had been rated');
+        } else return $this->sendRespondError($isRated, 'You had been rated', 500);
     }
 
     public function get(Pub $pub)
