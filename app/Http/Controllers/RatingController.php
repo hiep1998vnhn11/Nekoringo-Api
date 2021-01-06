@@ -52,7 +52,7 @@ class RatingController extends AppBaseController
         return $this->sendRespondSuccess($ratings, 'Get Rating successfully!');
     }
 
-    public function delete(Rating $rating)
+    public function destroy(Rating $rating)
     {
         if ($rating->user_id != auth()->user()->id) return $this->sendForbidden();
         $rating->delete();
