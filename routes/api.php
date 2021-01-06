@@ -146,7 +146,7 @@ Route::group([
         'prefix' => 'rating'
     ], function () {
         Route::get('index', [AdminRatingController::class, 'index']);
-        Route::post('{rating}/index', [AdminRatingController::class, 'destroy']);
+        Route::post('{rating}/delete', [AdminRatingController::class, 'destroy']);
     });
     Route::group([
         'prefix' => 'pub'
