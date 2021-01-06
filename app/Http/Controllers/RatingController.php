@@ -29,6 +29,7 @@ class RatingController extends AppBaseController
             $rating->rate = $request->rate;
             $rating->content = $request->content;
             $rating->save();
+            $path = null;
             if ($request->hasFile('image')) {
                 $image = $request->image;
                 $uploadFolder = 'pubs/' . $pub->id . '/rating_image';
