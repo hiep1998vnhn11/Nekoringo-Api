@@ -125,6 +125,7 @@ Route::group([
         'prefix' => 'comment'
     ], function () {
         Route::get('index', [AdminCommentController::class, 'index']);
+        Route::post('{comment}/delete', [AdminCommentController::class, 'destroy']);
     });
     Route::group([
         'prefix' => 'report'

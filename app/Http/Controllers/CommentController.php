@@ -21,6 +21,7 @@ class CommentController extends AppBaseController
         $comment->pub_id = $pub->id;
         $comment->content = $request->content;
         $image_photo_path = null;
+        $path = null;
         if ($request->hasFile('image')) {
             $image = $request->image;
             $uploadFolder = 'pubs/' . $pub->id . '/comment';
