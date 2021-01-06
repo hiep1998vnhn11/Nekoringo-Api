@@ -83,7 +83,7 @@ Route::group([
         Route::post('create', [DishController::class, 'create']);
     });
 
-    Route::post('rating/{rating}/delete', [RatingController::class, 'delete']);
+    Route::post('rating/{rating}/delete', [RatingController::class, 'destroy']);
     Route::post('comment/{comment}/delete', [CommentController::class, 'delete']);
     Route::post('comment/{comment}/report', [ReportController::class, 'create']);
 
