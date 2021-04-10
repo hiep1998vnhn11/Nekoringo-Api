@@ -17,7 +17,7 @@ use App\Http\Controllers\Admin\PubController as AdminPubController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DishController as AdminDishController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
-
+use App\Http\Controllers\DatabaseController;
 use App\Models\Category;
 
 
@@ -35,6 +35,11 @@ use App\Models\Category;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('make_database', [DatabaseController::class, 'index'])->middleware('cors');
+Route::get('show_database', [DatabaseController::class, 'show'])->middleware('cors');
+Route::get('truncate', [DatabaseController::class, 'truncate'])->middleware('cors');
+Route::get('education/{education}', [DatabaseController::class, 'store'])->middleware('cors');
+
 
 Route::group([
 

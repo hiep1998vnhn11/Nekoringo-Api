@@ -1,12 +1,9 @@
 <template>
-  <div>Dashboard</div>
+    <div>Dashboard 123</div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-</style>
+<style></style>
